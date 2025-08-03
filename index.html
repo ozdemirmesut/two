@@ -5,25 +5,314 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INCREASE4MED Project | PRIMA HORIZON EUROPE</title>
     
-    <!-- Mevcut ve yeni linkler -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-    <link rel="stylesheet" href="style.css">
     
-    <!-- Mevcut fontlar -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Yeni font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- React, Framer Motion ve Babel CDN'leri -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/framer-motion@latest/dist/framer-motion.umd.js"></script>
+    
+    <style>
+        /* ========================================================================
+           GENEL STİLLER
+           ======================================================================== */
+        :root {
+            --primary-color: #0d2c4a;
+            --secondary-color: #f07c00;
+            --accent-color: #4CAF50;
+            --map-highlight-color: #275317;
+            --highlight-color: #ffc107;
+            --text-color: #333;
+            --light-gray: #f8f9fa;
+            --white: #ffffff;
+            --dark-gray: #555;
+            --font-header: 'Montserrat', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        /* React bölümü hariç genel body ayarları */
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--white);
+        }
+
+        /* ========================================================================
+           HEADER & NAVIGATION STİLLERİ
+           ======================================================================== */
+        header {
+            background-color: var(--white);
+            position: relative;
+            width: 100%;
+            z-index: 1000;
+        }
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e0e0e0;
+            transition: height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
+            height: 85px;
+        }
+        .logo-container-top img { height: 50px; }
+        .separator {
+            width: 1px;
+            height: 40px;
+            background-color: #ccc;
+            margin: 0 1.5rem;
+        }
+        .project-title-full {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            line-height: 1.4;
+        }
+        .main-nav {
+            background-color: var(--white);
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+        header.scrolled .main-nav { position: fixed; top: 0; left: 0; }
+        header.scrolled .top-bar {
+            height: 0;
+            padding: 0 2rem;
+            opacity: 0;
+            overflow: hidden;
+            border-bottom: none;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .scrolled-logo {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s ease;
+            width: 0;
+        }
+        .scrolled-logo img { height: 40px; }
+        header.scrolled .scrolled-logo {
+            opacity: 1;
+            transform: translateX(0);
+            width: auto;
+            margin-right: 2rem;
+        }
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        .main-nav ul li a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 1.2rem 1rem;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+        .main-nav ul li a:hover,
+        .main-nav ul li a.active-page {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: calc(1.2rem - 2px);
+        }
+        .nav-arrow { font-size: 0.8rem; margin-left: 6px; opacity: 0.6; }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-left: auto;
+        }
+        .time-display {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            white-space: nowrap;
+        }
+        .icon-wrapper {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .icon-wrapper:hover { color: var(--primary-color); }
+        #search-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+            z-index: 2000; display: none; justify-content: center; align-items: center;
+        }
+        #close-search {
+            position: absolute; top: 30px; right: 50px;
+            color: white; font-size: 4rem; cursor: pointer;
+        }
+        .search-box { display: flex; width: 60%; max-width: 700px; }
+        #search-input {
+            width: 100%; padding: 1rem; font-size: 1.2rem;
+            border: none; border-radius: 5px 0 0 5px; outline: none;
+        }
+        #search-button {
+            padding: 1rem 2rem; border: none; background: var(--primary-color);
+            color: white; font-size: 1.2rem; cursor: pointer; border-radius: 0 5px 5px 0;
+        }
+        mark.highlight { background-color: var(--highlight-color); color: black; border-radius: 3px; }
+
+        /* ========================================================================
+           ANA İÇERİK ve KART STİLLERİ
+           ======================================================================== */
+        main { padding-top: 0; }
+        .content-section {
+            padding: 4rem 2rem; max-width: 1200px;
+            margin: 0 auto; text-align: center;
+        }
+        .content-section h1, .content-section h2 {
+            font-family: var(--font-header); font-size: 2.5rem;
+            margin-bottom: 1rem; color: var(--primary-color);
+        }
+        .content-section > p, .page-intro {
+            margin-bottom: 2rem; max-width: 800px;
+            margin-left: auto; margin-right: auto;
+        }
+        .gray-bg { background-color: var(--light-gray); }
+        .card-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem; margin-top: 2rem; text-align: left;
+        }
+        .card, .pilot-card {
+            background-color: var(--white); padding: 2rem;
+            border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover, .pilot-card:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .card h3 {
+            font-family: var(--font-header);
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .pilot-card h4 {
+            font-family: var(--font-header);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .pilot-card p { font-size: 0.9rem; }
+        #partner-map {
+            height: 550px; width: 100%; border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 2rem;
+        }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .logo-slider-container {
+            width: 100%; overflow: hidden; padding: 2rem 0;
+            margin-top: 2rem; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;
+        }
+        .logo-slider {
+            display: flex; align-items: center;
+            width: calc(180px * 18); animation: scroll 40s linear infinite;
+        }
+        .logo-slider img {
+            height: 50px; width: auto; margin: 0 20px;
+            filter: grayscale(100%); opacity: 0.7;
+            transition: filter 0.3s, opacity 0.3s;
+        }
+        .logo-slider img:hover { filter: grayscale(0%); opacity: 1; }
+        
+        /* ========================================================================
+           FOOTER STİLLERİ
+           ======================================================================== */
+        .site-footer {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            padding: 4rem 2rem;
+            font-size: 0.9rem;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem; max-width: 1200px; margin: 0 auto;
+        }
+        .footer-col { padding: 0 1rem; }
+        .footer-col h3 {
+            font-family: var(--font-header); color: var(--primary-color);
+            margin-bottom: 1.5rem; font-size: 1.1rem;
+        }
+        .footer-project-desc { margin-bottom: 1.5rem; line-height: 1.5; }
+        .footer-logo { width: 150px; }
+        .social-icons a {
+            color: var(--dark-gray); font-size: 1.5rem;
+            margin-right: 1rem; transition: color 0.3s;
+        }
+        .social-icons a:hover { color: var(--secondary-color); }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 0.75rem; }
+        .footer-links a, .footer-col > p > a {
+            text-decoration: none; color: var(--dark-gray);
+            transition: color 0.3s;
+        }
+        .footer-links a:hover, .footer-col > p > a:hover { color: var(--secondary-color); }
+        .copyright { margin-top: 1.5rem; font-size: 0.8rem; color: #888; }
+        
+        /* ========================================================================
+           YENİ REACT ANİMASYON BÖLÜMÜ STİLLERİ
+           ======================================================================== */
+        /* Bu stil bloğu, Tailwind'in dışındaki özel stilleri ve
+           React bölümünün body'den bağımsız olarak ayarlanmasını sağlar. */
+        #react-root .antialiased {
+            background-color: #000; /* Bu bölüme özel arka plan rengi */
+            color: #fff; /* Bu bölüme özel metin rengi */
+            font-family: 'Inter', sans-serif; /* Bu bölüme özel font */
+        }
+        .sticky-container {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .full-screen-section { /* Bu sınıf şu an kullanılmıyor ama React App'de tanımlıydı, tutabiliriz */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ========================================================================
+           MOBİL UYUMLULUK
+           ======================================================================== */
+        @media (max-width: 1024px) {
+            .main-nav ul { display: none; }
+            .nav-right { display: none; }
+            .nav-container { justify-content: center; }
+            header.scrolled .scrolled-logo { margin-right: 0; }
+            header.scrolled .nav-container { justify-content: center; }
+            .project-title-full { display: none; }
+            .separator { display: none; }
+            .top-bar { justify-content: center; }
+        }
+    </style>
 </head>
 <body>
     <header id="site-header">
@@ -67,11 +356,9 @@
         </div>
     </div>
     
-    <!-- React uygulamasının render edileceği ana div -->
     <div id="react-root"></div>
 
     <main>
-        <!-- Mevcut ana sayfa içeriği -->
         <section id="partners" class="content-section gray-bg">
             <h2>Interactive Partnership Map</h2>
             <p>You can see the locations of the partner institutions in Europe and neighboring countries on the map. The highlighted countries represent where our partners are located.</p>
@@ -154,9 +441,302 @@
     
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="script.js"></script>
+    <script>
+        // DOMContentLoaded event'i, tüm HTML yüklendikten sonra kodun çalışmasını garanti eder.
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- HEADER, NAVİGASYON, SAAT VE ARAMA FONKSİYONLARI ---
+            const header = document.getElementById('site-header');
+            const mainContent = document.querySelector('main');
+            const reactRoot = document.getElementById('react-root');
+            
+            // Sayfanın üst boşluğunu header'ın başlangıç yüksekliğine göre ayarla
+            function setMainPadding() {
+                if (header && reactRoot) {
+                    const headerHeight = header.offsetHeight;
+                    // React root'un hemen üstüne header'ın yüksekliği kadar boşluk bırak
+                    // Böylece React içeriği header'ın altından başlar.
+                    reactRoot.style.marginTop = `${headerHeight}px`;
+                    
+                    // Main içeriğinin kendi padding-top'unu sıfırla, çünkü React root'u artık bu işi hallediyor.
+                    if (mainContent) {
+                        mainContent.style.paddingTop = `0px`; 
+                    }
+                }
+            }
+
+            if (header) {
+                setMainPadding();
+                window.addEventListener('resize', setMainPadding); // Ekran boyutu değiştiğinde padding'i ayarla
+
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) { // Belirli bir scroll eşiğini geçince "scrolled" sınıfını ekle
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+
+            // Mevcut saat gösterimi
+            const timeDisplay = document.getElementById('current-time');
+            if (timeDisplay) {
+                function updateTime() {
+                    const now = new Date();
+                    // Türkiye için saat formatı ve İngilizce metin
+                    const options = { weekday: 'long', day: '2-digit', month: 'long', hour: '2-digit', minute: '2-digit', hour12: false };
+                    timeDisplay.textContent = now.toLocaleDateString('en-US', options); 
+                }
+                updateTime(); // Sayfa yüklendiğinde bir kez çalıştır
+                setInterval(updateTime, 10000); // Her 10 saniyede bir güncelle
+            }
+            
+            // Arama Fonksiyonu
+            const searchIcon = document.getElementById('search-icon');
+            const searchOverlay = document.getElementById('search-overlay');
+            const closeSearch = document.getElementById('close-search');
+            const searchButton = document.getElementById('search-button');
+            const searchInput = document.getElementById('search-input');
+
+            if (searchIcon) {
+                searchIcon.addEventListener('click', () => {
+                    searchOverlay.style.display = 'flex';
+                    searchInput.focus();
+                });
+                closeSearch.addEventListener('click', () => {
+                    searchOverlay.style.display = 'none';
+                });
+                searchButton.addEventListener('click', performSearch);
+                searchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+
+            function performSearch() {
+                const query = searchInput.value.toLowerCase();
+                // Önceki vurguları kaldır
+                document.querySelectorAll('mark.highlight').forEach(mark => {
+                    const parent = mark.parentNode;
+                    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                    parent.normalize(); // Metin düğümlerini birleştir
+                });
+
+                if (query) {
+                    const searchableContent = document.querySelector('main'); // Sadece main içeriğini ara
+                    let found = false;
+                    if (searchableContent) {
+                        const walk = document.createTreeWalker(searchableContent, NodeFilter.SHOW_TEXT, null, false);
+                        let node;
+                        while (node = walk.nextNode()) {
+                            const text = node.nodeValue;
+                            const lowerText = text.toLowerCase();
+                            let lastIndex = 0;
+                            let newHtml = '';
+                            while (lastIndex < text.length) {
+                                const startIndex = lowerText.indexOf(query, lastIndex);
+                                if (startIndex === -1) {
+                                    newHtml += text.substring(lastIndex);
+                                    break;
+                                }
+                                newHtml += text.substring(lastIndex, startIndex);
+                                newHtml += `<mark class="highlight">${text.substring(startIndex, startIndex + query.length)}</mark>`;
+                                lastIndex = startIndex + query.length;
+                                found = true;
+                            }
+                            if (found) {
+                                const span = document.createElement('span');
+                                span.innerHTML = newHtml;
+                                node.parentNode.replaceChild(span, node);
+                            }
+                        }
+                    }
+                    if (!found) {
+                        alert('No results found for "' + query + '"');
+                    }
+                }
+            }
+
+            // Aktif Sayfa Linkini Belirleme
+            const navLinks = document.querySelectorAll('.main-nav ul li a');
+            // Mevcut sayfa URL'sinden dosya adını al
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html'; 
+            navLinks.forEach(link => {
+                const linkHrefFile = link.getAttribute('href').split('/').pop();
+                if(linkHrefFile === currentPage) {
+                    link.classList.add('active-page'); // Aktif sayfaya sınıf ekle
+                }
+            });
+
+            // --- INTERAKTİF HARİTA FONKSİYONU ---
+            const mapContainer = document.getElementById('partner-map');
+            if (mapContainer) {
+                const partnerCountries = ['Turkey', 'Italy', 'Spain', 'Morocco', 'Jordan', 'Greece'];
+                const institutions = [
+                    { id: 1, name: 'UTAEM', country: 'Turkey', lat: 38.624890, lon: 27.044464 },
+                    { id: 2, name: 'UOWM', country: 'Greece', lat: 40.323113, lon: 21.791430 },
+                    { id: 3, name: 'CNR', country: 'Italy', lat: 43.092912, lon: 12.363602 },
+                    { id: 4, name: 'IRID', country: 'Italy', lat: 43.781965, lon: 11.262461 },
+                    { id: 5, name: 'NARC', country: 'Jordan', lat: 32.079133, lon: 35.842739 },
+                    { id: 6, name: 'INRA', country: 'Morocco', lat: 34.009061, lon: -6.850004 },
+                    { id: 7, name: 'NOVADAYS', country: 'Spain', lat: 40.487807, lon: -3.665633 },
+                    { id: 8, name: 'CSIC', country: 'Spain', lat: 41.387511, lon: 2.114585 },
+                    { id: 9, name: 'AMAYA', country: 'Spain', lat: 37.360054, lon: -6.332238 }
+                ];
+                var partnerMap = L.map('partner-map').setView([39.5, 12], 4);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(partnerMap);
+                fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/main/countries.geojson')
+                    .then(response => response.json())
+                    .then(data => {
+                        L.geoJSON(data, {
+                            style: function(feature) {
+                                const countryName = feature.properties.name;
+                                const isPartner = partnerCountries.includes(countryName);
+                                return {
+                                    fillColor: isPartner ? '#275317' : '#cccccc',
+                                    weight: isPartner ? 1.5 : 1,
+                                    opacity: 1,
+                                    color: isPartner ? '#275317' : 'white',
+                                    fillOpacity: isPartner ? 0.55 : 0.3
+                                };
+                            }
+                        }).addTo(partnerMap);
+                        institutions.forEach(inst => {
+                            const iconHtml = `<div style="background:#275317;border-radius:50%;width:25px;height:25px;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:14px;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.2);">${inst.id}</div>`;
+                            const customIcon = L.divIcon({ html: iconHtml, className: '' });
+                            L.marker([inst.lat, inst.lon], { icon: customIcon })
+                                .addTo(partnerMap)
+                                .bindPopup(`<b>${inst.name}</b><br>${inst.country}`);
+                        });
+                    });
+            }
+            // Kart Animasyonları
+            const cards = document.querySelectorAll('.card, .pilot-card');
+            if (cards.length > 0) {
+                const cardObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                            cardObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                cards.forEach(card => {
+                    card.style.opacity = 0;
+                    cardObserver.observe(card);
+                });
+            }
+        });
+        // CSS anahtar kareleri
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }`;
+        document.head.appendChild(style);
+    </script>
     
-    <!-- Ana sayfa için React bileşeni -->
-    <script type="text/babel" src="App.js"></script>
+    <script type="text/babel">
+        // React ve Framer Motion kütüphanelerinden gerekli fonksiyonları alıyoruz.
+        const { motion, useScroll, useTransform } = FramerMotion;
+        const { useRef } = React;
+        const { createRoot } = ReactDOM;
+
+        const App = () => {
+            // Slogan bölümü için referans (scroll takibi için)
+            const sloganRef = useRef(null);
+            // Başlık ve Parallax bölümü için referans (scroll takibi için)
+            const titleRef = useRef(null);
+
+            // Slogan bölümündeki scroll ilerlemesini yakalar
+            const { scrollYProgress: sloganProgress } = useScroll({
+                target: sloganRef,
+                offset: ['start start', 'end end'],
+            });
+
+            // Başlık bölümündeki scroll ilerlemesini yakalar
+            const { scrollYProgress: titleProgress } = useScroll({
+                target: titleRef,
+                offset: ['start start', 'end end'],
+            });
+
+            // Sloganların opacity (şeffaflık) animasyonları
+            // Her slogan belirli bir scroll aralığında görünür ve kaybolur
+            const slogan1Opacity = useTransform(sloganProgress, [0, 0.25, 0.30], [1, 1, 0]);
+            const slogan2Opacity = useTransform(sloganProgress, [0.25, 0.30, 0.50, 0.55], [0, 1, 1, 0]);
+            const slogan3Opacity = useTransform(sloganProgress, [0.50, 0.55, 0.75, 0.80], [0, 1, 1, 0]);
+            const slogan4Opacity = useTransform(sloganProgress, [0.75, 0.80, 1], [0, 1, 1]);
+
+            // Başlık ve arka plan parallax animasyonları
+            // Başlık: Küçülür ve yukarı hareket eder
+            const mainTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.5]);
+            const mainTitleY = useTransform(titleProgress, [0, 0.3], [0, -100]); 
+            // Alt Başlık: Küçülür ve yukarı hareket eder
+            const subTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.8]);
+            const subTitleY = useTransform(titleProgress, [0, 0.3], [0, -70]); 
+            // background_2.png: Hafifçe büyür ve kaybolur
+            const bg2Scale = useTransform(titleProgress, [0, 0.8], [1, 1.2]); 
+            const bg2Opacity = useTransform(titleProgress, [0.7, 0.8], [1, 0]); 
+            // background_1.png: Belirginleşir ve hafifçe büyür
+            const bg1Scale = useTransform(titleProgress, [0.8, 1], [1, 1.2]); 
+            const bg1Opacity = useTransform(titleProgress, [0.8, 1], [0, 1]); 
+
+            // Tekrarlanan slogan bileşeni
+            const SloganComponent = ({ text, opacity }) => (
+                <motion.h1 
+                    style={{ opacity }} 
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-4xl sm:text-5xl md:text-6xl font-bold max-w-5xl px-4"
+                >
+                    {text}
+                </motion.h1>
+            );
+
+            return (
+                <div className="antialiased">
+                    {/* Sloganlar Bölümü */}
+                    <div ref={sloganRef} className="relative h-[400vh]">
+                        <SloganComponent text="Building climate resilience in the Mediterranean together—with nature-based solutions." opacity={slogan1Opacity} />
+                        <SloganComponent text="Delivering region-specific, replicable, and scalable models." opacity={slogan2Opacity} />
+                        <SloganComponent text="A data-driven, participatory, and sustainable transformation." opacity={slogan3Opacity} />
+                        <SloganComponent text="Accessible digital tools—for everyone from farmers to policymakers." opacity={slogan4Opacity} />
+                    </div>
+                    {/* Başlık ve Parallax Efektleri Bölümü */}
+                    <div ref={titleRef} className="h-[200vh] relative">
+                        <div className="sticky-container">
+                            <motion.div 
+                                style={{ scale: bg2Scale, opacity: bg2Opacity, backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_2.png')" }} 
+                                className="absolute inset-0 z-0 bg-cover bg-center"
+                            />
+                            <motion.div 
+                                style={{ scale: bg1Scale, opacity: bg1Opacity, backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_1.png')" }} 
+                                className="absolute inset-0 z-10 bg-cover bg-center"
+                            />
+                            <div className="relative z-20 text-center flex flex-col items-center">
+                                <motion.h2 
+                                    style={{ scale: mainTitleScale, y: mainTitleY }} 
+                                    className="text-6xl md:text-8xl lg:text-9xl font-extrabold mb-4 text-white drop-shadow-lg"
+                                >
+                                    INCREASE4MED
+                                </motion.h2>
+                                <motion.p 
+                                    style={{ scale: subTitleScale, y: subTitleY }} 
+                                    className="text-lg md:text-xl lg:text-2xl font-light text-white drop-shadow-lg max-w-4xl px-4"
+                                >
+                                    INtegrated Catchment-scale REsilience and Naturebased solutions<br />
+                                    for Scaling up Environmental solutions FOR the MEDiterranean
+                                </motion.p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+        // React uygulamasını 'react-root' ID'li div'e render et
+        const container = document.getElementById('react-root');
+        const root = createRoot(container);
+        root.render(<App />);
+    </script>
+
 </body>
 </html>
