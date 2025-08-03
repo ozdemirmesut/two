@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         closeSearch.addEventListener('click', () => {
-            searchOverlay.style.none = 'none'; // 'display = none' olması gerekiyor
+            searchOverlay.style.display = 'none'; // Düzeltildi: .none yerine .display = 'none'
         });
 
         searchButton.addEventListener('click', performSearch);
