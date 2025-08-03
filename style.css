@@ -220,56 +220,59 @@ main { padding-top: 0; }
 .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
 .form-group input, .form-group textarea { width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc; font-family: var(--font-body); font-size: 1rem; }
 
-/* Telefon Numarası Seçim Alanı */
-.phone-input-container {
+/* Checkbox'lar için Flexbox Düzeni (Üçlü Yan Yana) */
+.checkbox-container { /* Eski checkbox-grid yerine bu kullanıldı */
     display: flex;
-    gap: 0.5rem; /* Seçici ile input arasında boşluk */
+    flex-wrap: wrap; /* Kutuların alt satıra geçmesini sağlar */
+    gap: 0.5rem 1.5rem; /* Satır ve sütun boşlukları */
+    justify-content: flex-start; /* Başlangıca hizala */
 }
 
-.country-code-select {
-    padding: 0.8rem 0.5rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    min-width: 100px; /* Sabit genişlik veya uygun bir genişlik */
-}
-
-
-/* Checkbox'lar için Grid Düzeni */
-.checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 sütunlu düzen */
-    gap: 0.5rem 1rem; /* Satır ve sütun boşlukları */
-}
-
-.checkbox-grid div {
+.checkbox-container div {
     display: flex;
     align-items: center;
+    /* Her bir checkbox öğesi için genişlik ayarı */
+    /* 3 sütun için %33.33, ancak gap'leri hesaba katmak için biraz daha küçük */
+    flex-basis: calc(33.33% - 1rem); /* 3 eşit sütun ve boşluklar */
+    min-width: 150px; /* Çok küçük ekranlarda ezilmesini engelle */
 }
 
-.checkbox-grid input[type="checkbox"] {
+.checkbox-container input[type="checkbox"] {
     margin-right: 0.5rem;
     width: auto; /* Checkbox'ın kendi genişliğini koruması için */
 }
-
 
 .submit-btn { width: 100%; padding: 1rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; }
 .submit-btn:hover { background-color: #091e32; }
 .contact-info-col h3 { font-family: var(--font-header); margin-bottom: 1rem; }
 
-/* Mavi Link Stili */
-.contact-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--dark-gray); margin-bottom: 1rem; }
-.contact-link i { color: var(--primary-color); font-size: 1.2rem; }
+/* Mavi Link Stili - Sadece metni mavi yapar, ikonu değil (varsayılan icon rengi primary-color) */
+.contact-link { 
+    display: flex; 
+    align-items: center; 
+    gap: 1rem; 
+    text-decoration: none; 
+    color: var(--dark-gray); /* Varsayılan metin rengi */
+    margin-bottom: 1rem; 
+    transition: color 0.3s;
+}
+.contact-link i { 
+    color: var(--primary-color); /* Varsayılan ikon rengi */
+    font-size: 1.2rem; 
+    transition: color 0.3s;
+}
 
-.blue-link {
-    color: var(--blue-link-color); /* Yeni tanımlanan mavi renk */
+/* Metin ve ikonun birlikte mavi olması için yeni sınıf */
+.blue-text-link {
+    color: var(--blue-link-color); /* Metin mavi olsun */
 }
-.blue-link:hover {
-    text-decoration: underline;
-}
-.blue-link i {
+
+.blue-text-link i {
     color: var(--blue-link-color); /* İkon da mavi olsun */
+}
+
+.blue-text-link:hover {
+    text-decoration: underline;
 }
 
 
@@ -299,7 +302,11 @@ main { padding-top: 0; }
     .separator { display: none; }
     .top-bar { justify-content: center; }
     .contact-body { grid-template-columns: 1fr; }
-    .checkbox-grid { /* Mobil görünümde checkbox'ları tek sütuna düşür */
-        grid-template-columns: 1fr;
+    .checkbox-container { /* Mobil görünümde checkbox'ları tek sütuna düşür */
+        flex-direction: column; /* Alt alta sırala */
+        gap: 0.5rem; /* Dikey boşluk */
+    }
+    .checkbox-container div {
+        flex-basis: auto; /* Genişliği otomatik ayarla */
     }
 }
