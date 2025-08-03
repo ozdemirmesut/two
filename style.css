@@ -1,9 +1,43 @@
+/* Genel sayfa ve animasyon stilleri */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    background-color: #000;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Ekranı kaplayan bölümler için temel stil */
+.full-screen-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Sticky elementler için kapsayıcı stil */
+.sticky-container {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Diğer mevcut stil kuralları (önceki kodundan) */
+
 /* Genel Ayarlar ve Değişkenler */
 :root {
     --primary-color: #0d2c4a;
     --secondary-color: #f07c00;
     --accent-color: #4CAF50;
-    --map-highlight-color: #275317; /* İstenen Koyu Yeşil */
+    --map-highlight-color: #275317;
     --highlight-color: #ffc107;
     --text-color: #333;
     --light-gray: #f8f9fa;
@@ -11,7 +45,7 @@
     --dark-gray: #555;
     --font-header: 'Montserrat', sans-serif;
     --font-body: 'Roboto', sans-serif;
-    --blue-link-color: #007bff; /* Mavi link rengi */
+    --blue-link-color: #007bff;
 }
 
 /* Sıfırlama ve Temel Stil */
@@ -44,7 +78,7 @@ header {
     padding: 1rem 2rem;
     border-bottom: 1px solid #e0e0e0;
     transition: height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
-    height: 85px; /* Başlangıç yüksekliği */
+    height: 85px;
 }
 
 .logo-container-top img {
@@ -71,7 +105,6 @@ header {
     transition: all 0.4s ease;
 }
 
-/* Kaydırma Efekti Stilleri */
 header.scrolled .main-nav {
     position: fixed;
     top: 0;
@@ -96,10 +129,10 @@ header.scrolled .top-bar {
 }
 
 .scrolled-logo {
-    opacity: 0; /* Başlangıçta gizli */
+    opacity: 0;
     transform: translateX(-20px);
     transition: all 0.4s ease;
-    width: 0; /* Başlangıçta yer kaplamaz */
+    width: 0;
 }
 
 .scrolled-logo img {
@@ -107,9 +140,9 @@ header.scrolled .top-bar {
 }
 
 header.scrolled .scrolled-logo {
-    opacity: 1; /* Kaydırıldığında görünür */
+    opacity: 1;
     transform: translateX(0);
-    width: auto; /* Gerektiği kadar yer kaplar */
+    width: auto;
     margin-right: 2rem;
 }
 
@@ -132,7 +165,7 @@ header.scrolled .scrolled-logo {
 }
 
 .main-nav ul li a:hover,
-.main-nav ul li a.active-page { /* Aktif sayfa stili */
+.main-nav ul li a.active-page {
     color: var(--primary-color);
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: calc(1.2rem - 2px);
@@ -148,7 +181,7 @@ header.scrolled .scrolled-logo {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    margin-left: auto; /* Sağa yaslamak için */
+    margin-left: auto;
 }
 
 .time-display {
@@ -168,8 +201,6 @@ header.scrolled .scrolled-logo {
     color: var(--primary-color);
 }
 
-
-/* Arama Kutusu */
 #search-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center;
 }
@@ -179,18 +210,13 @@ header.scrolled .scrolled-logo {
 #search-button { padding: 1rem 2rem; border: none; background: var(--primary-color); color: white; font-size: 1.2rem; cursor: pointer; border-radius: 0 5px 5px 0; }
 mark.highlight { background-color: var(--highlight-color); color: black; border-radius: 3px; }
 
-
 /* Ana Bölümler */
 main { padding-top: 0; }
-.page-container { padding-top: 150px; } /* Header boşluğu */
+.page-container { padding-top: 150px; }
 .content-section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
 .content-section h1, .content-section h2 { font-family: var(--font-header); font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color); }
 .content-section > p, .page-intro { margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
 .gray-bg { background-color: var(--light-gray); }
-
-/* Hero Bölümü */
-.hero-section { background: linear-gradient(rgba(13, 44, 74, 0.7), rgba(13, 44, 74, 0.7)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1932&auto=format&fit=crop') no-repeat center center/cover; height: 80vh; display: flex; justify-content: center; align-items: center; color: white; text-align: center; }
-.hero-content h1 { font-size: 3rem; }
 
 /* Kart Yapıları */
 .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; text-align: left; }
@@ -209,72 +235,6 @@ main { padding-top: 0; }
 .logo-slider { display: flex; align-items: center; width: calc(180px * 18); animation: scroll 40s linear infinite; }
 .logo-slider img { height: 50px; width: auto; margin: 0 20px; filter: grayscale(100%); opacity: 0.7; transition: filter 0.3s, opacity 0.3s; }
 .logo-slider img:hover { filter: grayscale(0%); opacity: 1; }
-
-/* Contact Sayfası Stilleri */
-.contact-wrapper { max-width: 1100px; margin: 2rem auto; padding: 2rem; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.05); text-align: left; }
-.contact-header { margin-bottom: 2rem; }
-.contact-header p { font-size: 1rem; color: var(--dark-gray); text-align: left; max-width: 100%;}
-.contact-body { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
-.form-row { display: flex; gap: 1rem; }
-.form-group { margin-bottom: 1.5rem; width: 100%; }
-.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-.form-group input, .form-group textarea { width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc; font-family: var(--font-body); font-size: 1rem; }
-
-/* Checkbox'lar için Flexbox Düzeni (Üçlü Yan Yana) */
-.checkbox-container { /* Eski checkbox-grid yerine bu kullanıldı */
-    display: flex;
-    flex-wrap: wrap; /* Kutuların alt satıra geçmesini sağlar */
-    gap: 0.5rem 1.5rem; /* Satır ve sütun boşlukları */
-    justify-content: flex-start; /* Başlangıca hizala */
-}
-
-.checkbox-container div {
-    display: flex;
-    align-items: center;
-    /* Her bir checkbox öğesi için genişlik ayarı */
-    /* 3 sütun için %33.33, ancak gap'leri hesaba katmak için biraz daha küçük */
-    flex-basis: calc(33.33% - 1rem); /* 3 eşit sütun ve boşluklar */
-    min-width: 150px; /* Çok küçük ekranlarda ezilmesini engelle */
-}
-
-.checkbox-container input[type="checkbox"] {
-    margin-right: 0.5rem;
-    width: auto; /* Checkbox'ın kendi genişliğini koruması için */
-}
-
-.submit-btn { width: 100%; padding: 1rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; }
-.submit-btn:hover { background-color: #091e32; }
-.contact-info-col h3 { font-family: var(--font-header); margin-bottom: 1rem; }
-
-/* Mavi Link Stili - Sadece metni mavi yapar, ikonu değil (varsayılan icon rengi primary-color) */
-.contact-link { 
-    display: flex; 
-    align-items: center; 
-    gap: 1rem; 
-    text-decoration: none; 
-    color: var(--dark-gray); /* Varsayılan metin rengi */
-    margin-bottom: 1rem; 
-    transition: color 0.3s;
-}
-.contact-link i { 
-    color: var(--primary-color); /* Varsayılan ikon rengi */
-    font-size: 1.2rem; 
-    transition: color 0.3s;
-}
-
-/* Metin ve ikonun birlikte mavi olması için yeni sınıf */
-.blue-text-link {
-    color: var(--blue-link-color); /* Metin mavi olsun */
-}
-
-.blue-text-link i {
-    color: var(--blue-link-color); /* İkon da mavi olsun */
-}
-
-.blue-text-link:hover {
-    text-decoration: underline;
-}
-
 
 /* Footer */
 .site-footer { background-color: var(--light-gray); color: var(--dark-gray); padding: 4rem 2rem; font-size: 0.9rem; }
@@ -301,12 +261,4 @@ main { padding-top: 0; }
     .project-title-full { display: none; }
     .separator { display: none; }
     .top-bar { justify-content: center; }
-    .contact-body { grid-template-columns: 1fr; }
-    .checkbox-container { /* Mobil görünümde checkbox'ları tek sütuna düşür */
-        flex-direction: column; /* Alt alta sırala */
-        gap: 0.5rem; /* Dikey boşluk */
-    }
-    .checkbox-container div {
-        flex-basis: auto; /* Genişliği otomatik ayarla */
-    }
 }
