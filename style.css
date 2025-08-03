@@ -1,0 +1,245 @@
+/* Genel Ayarlar ve Değişkenler */
+:root {
+    --primary-color: #005a8d; /* Koyu Mavi */
+    --secondary-color: #f07c00; /* Turuncu - Harita ikonları için */
+    --accent-color: #4CAF50; /* Yeşil */
+    --text-color: #333;
+    --light-gray: #f4f4f4;
+    --white: #ffffff;
+    --dark-gray: #555;
+    --font-header: 'Montserrat', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+/* Sıfırlama ve Temel Stil */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--white);
+}
+
+/* Navigasyon Çubuğu */
+header {
+    background-color: var(--white);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+nav .logo {
+    font-family: var(--font-header);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 2rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--dark-gray);
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover, nav ul li a.active {
+    color: var(--accent-color);
+}
+
+/* Ana Bölümler */
+main {
+    padding-top: 80px; /* Sabit header için boşluk */
+}
+
+.content-section {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.content-section h2 {
+    font-family: var(--font-header);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.content-section > p {
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.gray-bg {
+    background-color: var(--light-gray);
+}
+
+/* Hero (Ana Başlık) Bölümü */
+.hero-section {
+    background: linear-gradient(rgba(0, 90, 141, 0.7), rgba(0, 90, 141, 0.7)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1932&auto=format&fit=crop') no-repeat center center/cover;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+}
+
+.hero-content h1 {
+    font-family: var(--font-header);
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    background-color: var(--accent-color);
+    color: var(--white);
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 700;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #45a049;
+}
+
+
+/* Kart Yapıları */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.card, .pilot-card {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover, .pilot-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.card h3 {
+    font-family: var(--font-header);
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.pilot-card h4 {
+    font-family: var(--font-header);
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.pilot-card p {
+    font-size: 0.9rem;
+}
+
+
+/* Ortaklık Haritası Bölümü */
+#partner-map {
+    height: 550px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    background: var(--white);
+}
+.leaflet-popup-content {
+    text-align: left;
+    margin: 10px !important;
+}
+
+.leaflet-popup-content b {
+    color: var(--primary-color);
+    font-family: var(--font-header);
+}
+
+/* Etki ve İletişim Bölümleri */
+#impact ul {
+    list-style: none;
+    text-align: left;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+#impact ul li {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%234CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>') no-repeat left center;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.contact-info {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Mobil Cihazlar İçin Duyarlılık */
+@media (max-width: 768px) {
+    nav ul {
+        display: none; 
+    }
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    .content-section h2 {
+        font-size: 2rem;
+    }
+}

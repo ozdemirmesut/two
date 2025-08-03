@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INCREASE4MED Project | PRIMA HORIZON EUROPE</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header id="site-header">
+        <div class="top-bar">
+            <a href="index.html" class="logo-container-top">
+                <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Logo">
+            </a>
+            <div class="separator"></div>
+            <p class="project-title-full">
+                INtegrated Catchment-scale REsilience and Naturebased solutions for<br>
+                Scaling up Environmental solutions FOR the MEDiterranean
+            </p>
+        </div>
+        <nav class="main-nav" id="main-nav">
+            <div class="nav-container">
+                <a href="index.html" class="scrolled-logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Scrolled Logo">
+                </a>
+                <ul>
+                    <li><a href="index.html">Home <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="about.html">About Project <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="objectives.html">Objectives <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="pilots.html">Pilot Regions <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="partners.html">Partners <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="documents.html">Documents <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="news.html">News <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="contact.html">Contact <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                </ul>
+                <div class="nav-right">
+                    <div id="search-icon" class="icon-wrapper"><i class="fas fa-search"></i></div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="search-overlay">
+        <span id="close-search">×</span>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search the website..."><button id="search-button">Search</button>
+        </div>
+    </div>
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <h1>Welcome to INCREASE4MED</h1>
+                <p>Building a resilient Mediterranean through Nature-based Solutions</p>
+            </div>
+        </section>
+
+        <section id="partners" class="content-section gray-bg">
+            <h2>🤝 Interactive Partnership Map</h2>
+            <p>You can see the locations of the partner institutions in Europe and neighboring countries on the map. The highlighted countries represent where our partners are located.</p>
+            <div id="partner-map"></div>
+            <div class="logo-slider-container">
+                <div class="logo-slider">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/loog_utaem.png" alt="UTAEM Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_uowm.png" alt="UOWM Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_cnr.png" alt="CNR Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_iridra.png" alt="IRIDRA Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_narc.png" alt="NARC Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_inra.png" alt="INRA Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_novadays.png" alt="NOVADAYS Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_csic.png" alt="CSIC Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_amaya.png" alt="AMAYA Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/loog_utaem.png" alt="UTAEM Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_uowm.png" alt="UOWM Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_cnr.png" alt="CNR Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_iridra.png" alt="IRIDRA Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_narc.png" alt="NARC Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_inra.png" alt="INRA Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_novadays.png" alt="NOVADAYS Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_csic.png" alt="CSIC Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_amaya.png" alt="AMAYA Logo">
+                </div>
+            </div>
+        </section>
+
+         <section id="news" class="content-section">
+            <h2>📰 Latest News</h2>
+            <p>Follow the latest developments, events, and stories from the INCREASE4MED project.</p>
+            <div class="card-container">
+                <div class="card">
+                    <h3>Kick-off Meeting Held in Izmir</h3>
+                    <p>The INCREASE4MED consortium successfully held its kick-off meeting, setting a clear path for the next 36 months of research and implementation.</p>
+                </div>
+                <div class="card">
+                    <h3>First Set of Baseline Data Collected</h3>
+                    <p>Our teams in all 7 pilot regions have completed the initial phase of data collection, which will form the basis for our impact assessments.</p>
+                </div>
+                <div class="card">
+                    <h3>Upcoming Webinar on NbS</h3>
+                    <p>Join us for a public webinar where we will discuss the innovative Nature-based Solutions being deployed in our project. Registration opens soon.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>INCREASE4MED</h3>
+                <p class="footer-project-desc">Integrated Catchment-scale REsilience and Naturebased solutions for Scaling up Environmental solutions FOR the MEDiterranean</p>
+                <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Logo" class="footer-logo">
+            </div>
+            <div class="footer-col">
+                <h3>Tweets by INCREASE4MED_PRIMA</h3>
+                <a class="twitter-timeline" data-height="300" data-theme="light" href="https://x.com/ozdemirmesut">Tweets by ozdemirmesut</a> 
+            </div>
+            <div class="footer-col">
+                <h3>Follow us</h3>
+                <div class="social-icons">
+                    <a href="https://x.com/ozdemirmesut" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/ozdemirmesut/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <h3>Contact</h3>
+                <p><a href="mailto:ozdemirm@udel.edu">ozdemirm@udel.edu</a></p>
+            </div>
+            <div class="footer-col">
+                <h3>Privacy information</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookies Policy</a></li>
+                </ul>
+                <p class="copyright">Copyright INCREASE4MED 2026 | Web Design by Mesut Özdemir</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
