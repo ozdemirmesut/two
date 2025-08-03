@@ -19,7 +19,9 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    scroll-behavior: smooth;
+    /* Smooth scroll sadece HTML elementleri için geçerlidir.
+       React scroll animasyonları Framer Motion tarafından yönetilir. */
+    scroll-behavior: smooth; 
 }
 
 /* React bölümü hariç genel body ayarları */
@@ -28,6 +30,8 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--white);
+    /* Yatay kaydırma çubuğunu gizle - özellikle parallax efektlerinde faydalıdır */
+    overflow-x: hidden; 
 }
 
 /* ========================================================================
@@ -66,7 +70,11 @@ header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: all 0.4s ease;
 }
-header.scrolled .main-nav { position: fixed; top: 0; left: 0; }
+header.scrolled .main-nav { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+}
 header.scrolled .top-bar {
     height: 0;
     padding: 0 2rem;
@@ -159,7 +167,8 @@ mark.highlight { background-color: var(--highlight-color); color: black; border-
 /* ========================================================================
    ANA İÇERİK ve KART STİLLERİ
    ======================================================================== */
-main { padding-top: 0; }
+/* main elemanının padding-top'unu sıfırlıyoruz çünkü React root'u artık bu görevi üstlenecek. */
+main { padding-top: 0; } 
 .content-section {
     padding: 4rem 2rem; max-width: 1200px;
     margin: 0 auto; text-align: center;
@@ -258,7 +267,10 @@ main { padding-top: 0; }
     background-color: #000; /* Bu bölüme özel arka plan rengi */
     color: #fff; /* Bu bölüme özel metin rengi */
     font-family: 'Inter', sans-serif; /* Bu bölüme özel font */
+    /* Ensure smooth scrolling behavior within the React section */
+    scroll-behavior: smooth; 
 }
+
 .sticky-container {
     position: sticky;
     top: 0;
@@ -268,14 +280,32 @@ main { padding-top: 0; }
     display: flex;
     justify-content: center;
     align-items: center;
+    /* Performans iyileştirmeleri */
+    will-change: transform, opacity; 
 }
+
 .full-screen-section { /* Bu sınıf şu an kullanılmıyor ama React App'de tanımlıydı, tutabiliriz */
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* Gizli taşmaları önler */
+    /* Performans iyileştirmeleri */
+    will-change: transform, opacity; 
+    /* Animasyonlarda kenar kaymalarını ve kırpılmaları önlemek için */
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Eğer React bileşenindeki motion.div'lere özel stil eklemek istersek */
+/* Bu, özellikle arka plan görselleri için geçerlidir. */
+.framer-motion-background {
+    background-size: cover;
+    background-position: center;
+    /* Görselin köşelerinde keskinlik ve pürüzsüzlük için */
+    image-rendering: -webkit-optimize-contrast; /* Webkit tabanlı tarayıcılar için */
+    image-rendering: crisp-edges; /* Modern tarayıcılar için */
 }
 
 /* ========================================================================
@@ -290,4 +320,17 @@ main { padding-top: 0; }
     .project-title-full { display: none; }
     .separator { display: none; }
     .top-bar { justify-content: center; }
+    
+    /* Sloganlar ve başlıklar için mobil font boyutları */
+    #react-root .text-4xl { font-size: 2.25rem; } /* Default 4xl for base */
+    #react-root .sm\:text-5xl { font-size: 2.5rem; } /* Override sm:text-5xl */
+    #react-root .md\:text-6xl { font-size: 3rem; } /* Override md:text-6xl */
+    
+    #react-root .text-6xl { font-size: 3.5rem; } /* Default 6xl for base */
+    #react-root .md\:text-8xl { font-size: 4.5rem; } /* Override md:text-8xl */
+    #react-root .lg\:text-9xl { font-size: 5.5rem; } /* Override lg:text-9xl */
+
+    #react-root .text-lg { font-size: 1rem; }
+    #react-root .md\:text-xl { font-size: 1.125rem; }
+    #react-root .lg\:text-2xl { font-size: 1.25rem; }
 }
