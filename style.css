@@ -1,38 +1,6 @@
-/* Genel sayfa ve animasyon stilleri */
-html, body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', 'Roboto', sans-serif;
-    background-color: #000;
-    color: #fff;
-    overflow-x: hidden;
-}
-
-/* Ekranı kaplayan bölümler için temel stil */
-.full-screen-section {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Sticky elementler için kapsayıcı stil */
-.sticky-container {
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Diğer mevcut stil kuralları (önceki kodundan) */
-
-/* Genel Ayarlar ve Değişkenler */
+/* ========================================================================
+   GENEL STİLLER
+   ======================================================================== */
 :root {
     --primary-color: #0d2c4a;
     --secondary-color: #f07c00;
@@ -45,10 +13,8 @@ html, body {
     --dark-gray: #555;
     --font-header: 'Montserrat', sans-serif;
     --font-body: 'Roboto', sans-serif;
-    --blue-link-color: #007bff;
 }
 
-/* Sıfırlama ve Temel Stil */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -56,6 +22,7 @@ html, body {
     scroll-behavior: smooth;
 }
 
+/* React bölümü hariç genel body ayarları */
 body {
     font-family: var(--font-body);
     line-height: 1.6;
@@ -63,14 +30,15 @@ body {
     background-color: var(--white);
 }
 
-/* HEADER STİLLERİ */
+/* ========================================================================
+   HEADER & NAVIGATION STİLLERİ
+   ======================================================================== */
 header {
     background-color: var(--white);
     position: relative;
     width: 100%;
     z-index: 1000;
 }
-
 .top-bar {
     display: flex;
     align-items: center;
@@ -80,37 +48,25 @@ header {
     transition: height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
     height: 85px;
 }
-
-.logo-container-top img {
-    height: 50px;
-}
-
+.logo-container-top img { height: 50px; }
 .separator {
     width: 1px;
     height: 40px;
     background-color: #ccc;
     margin: 0 1.5rem;
 }
-
 .project-title-full {
     font-size: 0.9rem;
     color: var(--dark-gray);
     line-height: 1.4;
 }
-
 .main-nav {
     background-color: var(--white);
     width: 100%;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: all 0.4s ease;
 }
-
-header.scrolled .main-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
+header.scrolled .main-nav { position: fixed; top: 0; left: 0; }
 header.scrolled .top-bar {
     height: 0;
     padding: 0 2rem;
@@ -118,7 +74,6 @@ header.scrolled .top-bar {
     overflow: hidden;
     border-bottom: none;
 }
-
 .nav-container {
     display: flex;
     justify-content: space-between;
@@ -127,32 +82,25 @@ header.scrolled .top-bar {
     margin: 0 auto;
     padding: 0 2rem;
 }
-
 .scrolled-logo {
     opacity: 0;
     transform: translateX(-20px);
     transition: all 0.4s ease;
     width: 0;
 }
-
-.scrolled-logo img {
-    height: 40px;
-}
-
+.scrolled-logo img { height: 40px; }
 header.scrolled .scrolled-logo {
     opacity: 1;
     transform: translateX(0);
     width: auto;
     margin-right: 2rem;
 }
-
 .main-nav ul {
     list-style: none;
     display: flex;
     margin: 0;
     padding: 0;
 }
-
 .main-nav ul li a {
     text-decoration: none;
     color: var(--dark-gray);
@@ -163,95 +111,176 @@ header.scrolled .scrolled-logo {
     align-items: center;
     transition: color 0.3s;
 }
-
 .main-nav ul li a:hover,
 .main-nav ul li a.active-page {
     color: var(--primary-color);
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: calc(1.2rem - 2px);
 }
-
-.nav-arrow {
-    font-size: 0.8rem;
-    margin-left: 6px;
-    opacity: 0.6;
-}
-
+.nav-arrow { font-size: 0.8rem; margin-left: 6px; opacity: 0.6; }
 .nav-right {
     display: flex;
     align-items: center;
     gap: 1.5rem;
     margin-left: auto;
 }
-
 .time-display {
     font-size: 0.9rem;
     color: var(--dark-gray);
     white-space: nowrap;
 }
-
 .icon-wrapper {
     font-size: 1.2rem;
     color: var(--dark-gray);
     cursor: pointer;
     transition: color 0.3s;
 }
-
-.icon-wrapper:hover {
-    color: var(--primary-color);
-}
-
+.icon-wrapper:hover { color: var(--primary-color); }
 #search-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+    z-index: 2000; display: none; justify-content: center; align-items: center;
 }
-#close-search { position: absolute; top: 30px; right: 50px; color: white; font-size: 4rem; cursor: pointer; }
+#close-search {
+    position: absolute; top: 30px; right: 50px;
+    color: white; font-size: 4rem; cursor: pointer;
+}
 .search-box { display: flex; width: 60%; max-width: 700px; }
-#search-input { width: 100%; padding: 1rem; font-size: 1.2rem; border: none; border-radius: 5px 0 0 5px; outline: none; }
-#search-button { padding: 1rem 2rem; border: none; background: var(--primary-color); color: white; font-size: 1.2rem; cursor: pointer; border-radius: 0 5px 5px 0; }
+#search-input {
+    width: 100%; padding: 1rem; font-size: 1.2rem;
+    border: none; border-radius: 5px 0 0 5px; outline: none;
+}
+#search-button {
+    padding: 1rem 2rem; border: none; background: var(--primary-color);
+    color: white; font-size: 1.2rem; cursor: pointer; border-radius: 0 5px 5px 0;
+}
 mark.highlight { background-color: var(--highlight-color); color: black; border-radius: 3px; }
 
-/* Ana Bölümler */
+/* ========================================================================
+   ANA İÇERİK ve KART STİLLERİ
+   ======================================================================== */
 main { padding-top: 0; }
-.page-container { padding-top: 150px; }
-.content-section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
-.content-section h1, .content-section h2 { font-family: var(--font-header); font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color); }
-.content-section > p, .page-intro { margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+.content-section {
+    padding: 4rem 2rem; max-width: 1200px;
+    margin: 0 auto; text-align: center;
+}
+.content-section h1, .content-section h2 {
+    font-family: var(--font-header); font-size: 2.5rem;
+    margin-bottom: 1rem; color: var(--primary-color);
+}
+.content-section > p, .page-intro {
+    margin-bottom: 2rem; max-width: 800px;
+    margin-left: auto; margin-right: auto;
+}
 .gray-bg { background-color: var(--light-gray); }
-
-/* Kart Yapıları */
-.card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; text-align: left; }
-.card, .pilot-card { background-color: var(--white); padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; }
+.card-container {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem; margin-top: 2rem; text-align: left;
+}
+.card, .pilot-card {
+    background-color: var(--white); padding: 2rem;
+    border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 .card:hover, .pilot-card:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-.card h3 { font-family: var(--font-header); color: var(--primary-color); margin-bottom: 1rem; }
-.pilot-card h4 { font-family: var(--font-header); color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem; }
+.card h3 {
+    font-family: var(--font-header);
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+.pilot-card h4 {
+    font-family: var(--font-header);
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
 .pilot-card p { font-size: 0.9rem; }
-
-/* Ortaklık Haritası */
-#partner-map { height: 550px; width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 2rem; }
-
-/* Logo Kaydırma Bandı */
+#partner-map {
+    height: 550px; width: 100%; border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 2rem;
+}
 @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.logo-slider-container { width: 100%; overflow: hidden; padding: 2rem 0; margin-top: 2rem; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; }
-.logo-slider { display: flex; align-items: center; width: calc(180px * 18); animation: scroll 40s linear infinite; }
-.logo-slider img { height: 50px; width: auto; margin: 0 20px; filter: grayscale(100%); opacity: 0.7; transition: filter 0.3s, opacity 0.3s; }
+.logo-slider-container {
+    width: 100%; overflow: hidden; padding: 2rem 0;
+    margin-top: 2rem; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;
+}
+.logo-slider {
+    display: flex; align-items: center;
+    width: calc(180px * 18); animation: scroll 40s linear infinite;
+}
+.logo-slider img {
+    height: 50px; width: auto; margin: 0 20px;
+    filter: grayscale(100%); opacity: 0.7;
+    transition: filter 0.3s, opacity 0.3s;
+}
 .logo-slider img:hover { filter: grayscale(0%); opacity: 1; }
 
-/* Footer */
-.site-footer { background-color: var(--light-gray); color: var(--dark-gray); padding: 4rem 2rem; font-size: 0.9rem; }
-.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+/* ========================================================================
+   FOOTER STİLLERİ
+   ======================================================================== */
+.site-footer {
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    padding: 4rem 2rem;
+    font-size: 0.9rem;
+}
+.footer-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem; max-width: 1200px; margin: 0 auto;
+}
 .footer-col { padding: 0 1rem; }
-.footer-col h3 { font-family: var(--font-header); color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.1rem; }
+.footer-col h3 {
+    font-family: var(--font-header); color: var(--primary-color);
+    margin-bottom: 1.5rem; font-size: 1.1rem;
+}
 .footer-project-desc { margin-bottom: 1.5rem; line-height: 1.5; }
 .footer-logo { width: 150px; }
-.social-icons a { color: var(--dark-gray); font-size: 1.5rem; margin-right: 1rem; transition: color 0.3s; }
+.social-icons a {
+    color: var(--dark-gray); font-size: 1.5rem;
+    margin-right: 1rem; transition: color 0.3s;
+}
 .social-icons a:hover { color: var(--secondary-color); }
 .footer-links { list-style: none; padding: 0; }
 .footer-links li { margin-bottom: 0.75rem; }
-.footer-links a, .footer-col > p > a { text-decoration: none; color: var(--dark-gray); transition: color 0.3s; }
+.footer-links a, .footer-col > p > a {
+    text-decoration: none; color: var(--dark-gray);
+    transition: color 0.3s;
+}
 .footer-links a:hover, .footer-col > p > a:hover { color: var(--secondary-color); }
 .copyright { margin-top: 1.5rem; font-size: 0.8rem; color: #888; }
 
-/* Mobil Duyarlılık */
+/* ========================================================================
+   YENİ REACT ANİMASYON BÖLÜMÜ STİLLERİ
+   ======================================================================== */
+/* Bu stil bloğu, Tailwind'in dışındaki özel stilleri ve
+   React bölümünün body'den bağımsız olarak ayarlanmasını sağlar. */
+#react-root .antialiased {
+    background-color: #000; /* Bu bölüme özel arka plan rengi */
+    color: #fff; /* Bu bölüme özel metin rengi */
+    font-family: 'Inter', sans-serif; /* Bu bölüme özel font */
+}
+.sticky-container {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.full-screen-section { /* Bu sınıf şu an kullanılmıyor ama React App'de tanımlıydı, tutabiliriz */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ========================================================================
+   MOBİL UYUMLULUK
+   ======================================================================== */
 @media (max-width: 1024px) {
     .main-nav ul { display: none; }
     .nav-right { display: none; }
