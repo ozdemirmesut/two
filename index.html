@@ -3,146 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INCREASE4MED Project | PRIMA HORIZON EUROPE</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <title>INCREASE4MED Project | Landing Page</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@latest/dist/framer-motion.umd.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Genel sayfa ve animasyon stilleri */
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif; /* Inter fontunu uygula */
+            background-color: #000; /* Koyu arka plan */
+            color: #fff; /* Beyaz metin rengi */
+            overflow-x: hidden; /* Yatay kaydırmayı engeller */
+        }
+        /* Ekranı kaplayan bölümler için temel stil */
+        .full-screen-section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden; /* İçerik taşmasını önler */
+        }
+        /* Sticky elementler için kapsayıcı */
+        .sticky-container {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
+    <div id="root"></div>
 
-    <header id="site-header">
-        <div class="top-bar">
-            <a href="index.html" class="logo-container-top">
-                <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Logo">
-            </a>
-            <div class="separator"></div>
-            <p class="project-title-full">
-                INtegrated Catchment-scale REsilience and Naturebased solutions for<br>
-                Scaling up Environmental solutions FOR the MEDiterranean
-            </p>
-        </div>
-        <nav class="main-nav" id="main-nav">
-            <div class="nav-container">
-                <a href="index.html" class="scrolled-logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Scrolled Logo">
-                </a>
-                <ul>
-                    <li><a href="index.html">Home <i class="fas fa-angle-down nav-arrow"></i></a></li>
-                    <li><a href="about.html">About Project <i class="fas fa-angle-down nav-arrow"></i></a></li>
-                    <li><a href="objectives.html">Objectives <i class="fas fa-angle-down nav-arrow"></i></a></li>
-                    <li><a href="pilots.html">Pilot Regions <i class="fas fa-angle-down nav-arrow"></i></a></li>
-                    <li><a href="partners.html">Partners <i class="fas fa-angle-down nav-arrow"></i></a></li>
-                    <li><a href="documents.html">Documents <i class="fas fa-angle-down nav-arrow"></i></a></li>
-                    <li><a href="news.html">News <i class="fas fa-angle-down nav-arrow"></i></a></li>
-                    <li><a href="contact.html">Contact <i class="fas fa-angle-down nav-arrow"></i></a></li>
-                </ul>
-                <div class="nav-right">
-                    <div id="current-time" class="time-display"></div>
-                    <div id="search-icon" class="icon-wrapper"><i class="fas fa-search"></i></div>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div id="search-overlay">
-        <span id="close-search">×</span>
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="Search the website..."><button id="search-button">Search</button>
-        </div>
-    </div>
-    <main>
-        <section id="hero" class="hero-section">
-            <div class="hero-content">
-                <h1>Welcome to INCREASE4MED</h1>
-                <p>Building a resilient Mediterranean through Nature-based Solutions</p>
-            </div>
-        </section>
+    <script type="text/babel">
+        const { motion, useScroll, useTransform } = FramerMotion;
+        const { useRef } = React;
+        const { createRoot } = ReactDOM;
 
-        <section id="partners" class="content-section gray-bg">
-            <h2>Interactive Partnership Map</h2>
-            <p>You can see the locations of the partner institutions in Europe and neighboring countries on the map. The highlighted countries represent where our partners are located.</p>
-            <div id="partner-map"></div>
-            <div class="logo-slider-container">
-                <div class="logo-slider">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/loog_utaem.png" alt="UTAEM Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_uowm.png" alt="UOWM Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_cnr.png" alt="CNR Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_iridra.png" alt="IRIDRA Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_narc.png" alt="NARC Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_inra.png" alt="INRA Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_novadays.png" alt="NOVADAYS Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_csic.png" alt="CSIC Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_amaya.png" alt="AMAYA Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/loog_utaem.png" alt="UTAEM Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_uowm.png" alt="UOWM Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_cnr.png" alt="CNR Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_iridra.png" alt="IRIDRA Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_narc.png" alt="NARC Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_inra.png" alt="INRA Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_novadays.png" alt="NOVADAYS Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_csic.png" alt="CSIC Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_amaya.png" alt="AMAYA Logo">
-                </div>
-            </div>
-        </section>
+        const App = () => {
+            // Slogan bölümü için bir referans oluşturuyoruz.
+            const sloganRef = useRef(null);
+            // Başlık ve Parallax bölümü için bir referans oluşturuyoruz.
+            const titleRef = useRef(null);
 
-          <section id="news" class="content-section">
-            <h2>📰 Latest News</h2>
-            <p>Follow the latest developments, events, and stories from the INCREASE4MED project.</p>
-            <div class="card-container">
-                <div class="card">
-                    <h3>Kick-off Meeting Held in Izmir</h3>
-                    <p>The INCREASE4MED consortium successfully held its kick-off meeting, setting a clear path for the next 36 months of research and implementation.</p>
-                </div>
-                <div class="card">
-                    <h3>First Set of Baseline Data Collected</h3>
-                    <p>Our teams in all 7 pilot regions have completed the initial phase of data collection, which will form the basis for our impact assessments.</p>
-                </div>
-                <div class="card">
-                    <h3>Upcoming Webinar on NbS</h3>
-                    <p>Join us for a public webinar where we will discuss the innovative Nature-based Solutions being deployed in our project. Registration opens soon.</p>
-                </div>
-            </div>
-        </section>
+            // Slogan bölümündeki scroll ilerlemesini 0'dan 1'e kadar yakalar.
+            const { scrollYProgress: sloganProgress } = useScroll({
+                target: sloganRef,
+                offset: ['start start', 'end end'], // Scroll'un başlangıcından bitişine kadar tam ilerleme
+            });
 
-    </main>
+            // Başlık bölümündeki scroll ilerlemesini yakalar.
+            const { scrollYProgress: titleProgress } = useScroll({
+                target: titleRef,
+                offset: ['start start', 'end end'], // Scroll'un başlangıcından bitişine kadar tam ilerleme
+            });
 
-    <footer class="site-footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h3>INCREASE4MED</h3>
-                <p class="footer-project-desc">Integrated Catchment-scale REsilience and Naturebased solutions for Scaling up Environmental solutions FOR the MEDiterranean</p>
-                <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Logo" class="footer-logo">
-            </div>
-            <div class="footer-col">
-                <h3>Tweets by INCREASE4MED_PRIMA</h3>
-                <a class="twitter-timeline" data-height="300" data-theme="light" href="https://x.com/ozdemirmesut">Tweets by ozdemirmesut</a> 
-            </div>
-            <div class="footer-col">
-                <h3>Follow us</h3>
-                <div class="social-icons">
-                    <a href="https://x.com/ozdemirmesut" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://www.linkedin.com/in/ozdemirmesut/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            // ============================================================================
+            // Sloganların her biri için scroll'a bağlı opacity (şeffaflık) değerlerini hesaplama
+            // Sloganlar sırayla fade-in/fade-out olacak.
+            // Slogan bölümünün toplam yüksekliği 400vh olduğu için, her slogan 100vh'lik bir alana yayılır.
+            // Opacity geçiş aralıkları buna göre ayarlanır.
+            // ============================================================================
+            // Slogan 1: 0% - 25% scroll'da tam görünür, 25%-30% arasında kaybolur.
+            const slogan1Opacity = useTransform(sloganProgress, [0, 0.25, 0.30], [1, 1, 0]);
+
+            // Slogan 2: 25% - 30% scroll'da belirir, 30%-50% arasında tam görünür, 50%-55% arasında kaybolur.
+            const slogan2Opacity = useTransform(sloganProgress, [0.25, 0.30, 0.50, 0.55], [0, 1, 1, 0]);
+
+            // Slogan 3: 50% - 55% scroll'da belirir, 55%-75% arasında tam görünür, 75%-80% arasında kaybolur.
+            const slogan3Opacity = useTransform(sloganProgress, [0.50, 0.55, 0.75, 0.80], [0, 1, 1, 0]);
+
+            // Slogan 4: 75% - 80% scroll'da belirir, 80%-100% arasında tam görünür.
+            const slogan4Opacity = useTransform(sloganProgress, [0.75, 0.80, 1], [0, 1, 1]);
+
+
+            // ============================================================================
+            // Başlık ve Parallax bölümü için animasyon değerleri
+            // Bu bölümün toplam yüksekliği 200vh. Animasyonlar bu aralıkta gerçekleşir.
+            // ============================================================================
+            // Başlık (INCREASE4MED) küçülme ve yukarı hareket animasyonu
+            // İlk %30'luk scroll'da boyutunu yarıya indirir ve yukarı doğru 100px hareket eder.
+            const mainTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.5]);
+            const mainTitleY = useTransform(titleProgress, [0, 0.3], [0, -100]); 
+            
+            // Alt başlık küçülme ve yukarı hareket animasyonu
+            // İlk %30'luk scroll'da boyutunu %80'ine indirir ve yukarı doğru 70px hareket eder.
+            const subTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.8]);
+            const subTitleY = useTransform(titleProgress, [0, 0.3], [0, -70]); 
+            
+            // Arka plan 2 görseli (background_2.png) için Parallax ve opacity animasyonu
+            // İlk %80'lik scroll'da hafifçe büyür, son %10'luk scroll'da kaybolur.
+            const bg2Scale = useTransform(titleProgress, [0, 0.8], [1, 1.2]); 
+            const bg2Opacity = useTransform(titleProgress, [0.7, 0.8], [1, 0]); 
+
+            // Arka plan 1 görseli (background_1.png) için Parallax ve opacity animasyonu
+            // Son %20'lik scroll'da belirginleşir ve hafifçe büyür.
+            const bg1Scale = useTransform(titleProgress, [0.8, 1], [1, 1.2]); 
+            const bg1Opacity = useTransform(titleProgress, [0.8, 1], [0, 1]); 
+
+            // Tekrarlanan slogan bileşeni
+            const SloganComponent = ({ text, opacity }) => (
+                <motion.h1
+                    style={{ opacity }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-4xl sm:text-5xl md:text-6xl font-bold max-w-5xl px-4"
+                >
+                    {text}
+                </motion.h1>
+            );
+
+            return (
+                <div className="antialiased">
+                    {/* ========================================================================
+                        Bölüm 1: Sloganlar Bölümü
+                        Sayfanın başlangıcında ekranı kaplayan sloganları içerir.
+                        ========================================================================
+                    */}
+                    <div ref={sloganRef} className="relative h-[400vh]">
+                        <SloganComponent text="Building climate resilience in the Mediterranean together—with nature-based solutions." opacity={slogan1Opacity} />
+                        <SloganComponent text="Delivering region-specific, replicable, and scalable models." opacity={slogan2Opacity} />
+                        <SloganComponent text="A data-driven, participatory, and sustainable transformation." opacity={slogan3Opacity} />
+                        <SloganComponent text="Accessible digital tools—for everyone from farmers to policymakers." opacity={slogan4Opacity} />
+                    </div>
+
+                    {/* ========================================================================
+                        Bölüm 2: Başlık ve Parallax Efektleri Bölümü
+                        Sloganlar bittikten sonra bu bölüme geçilir.
+                        ========================================================================
+                    */}
+                    <div ref={titleRef} className="h-[200vh] relative">
+                        <div className="sticky-container">
+                            {/* Arka plan 2 görseli için motion div */}
+                            <motion.div
+                                style={{ 
+                                    scale: bg2Scale, 
+                                    opacity: bg2Opacity, 
+                                    backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_2.png')" 
+                                }}
+                                className="absolute inset-0 z-0 bg-cover bg-center"
+                            />
+
+                            {/* Arka plan 1 görseli için motion div */}
+                            <motion.div
+                                style={{ 
+                                    scale: bg1Scale, 
+                                    opacity: bg1Opacity,
+                                    backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_1.png')" 
+                                }}
+                                className="absolute inset-0 z-10 bg-cover bg-center"
+                            />
+                            
+                            {/* INCREASE4MED başlığı ve tam adı bloğu */}
+                            <div className="relative z-20 text-center flex flex-col items-center">
+                                {/* Ana Başlık */}
+                                <motion.h2
+                                    style={{ scale: mainTitleScale, y: mainTitleY }}
+                                    className="text-6xl md:text-8xl lg:text-9xl font-extrabold mb-4 text-white drop-shadow-lg"
+                                >
+                                    INCREASE4MED
+                                </motion.h2>
+
+                                {/* Alt Başlık (Tam adı) */}
+                                <motion.p
+                                    style={{ scale: subTitleScale, y: subTitleY }}
+                                    className="text-lg md:text-xl lg:text-2xl font-light text-white drop-shadow-lg max-w-4xl px-4"
+                                >
+                                    INtegrated Catchment-scale REsilience and Naturebased solutions<br />
+                                    for Scaling up Environmental solutions FOR the MEDiterranean
+                                </motion.p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* ========================================================================
+                        Bölüm 3: İçerik Devamı (Örnek Bölüm)
+                        Parallax bölümü bittikten sonra, sayfanın geri kalan içeriği burada yer alabilir.
+                        ========================================================================
+                    */}
+                    <div className="h-[100vh] bg-black text-center pt-20 px-4">
+                        <h2 className="text-4xl md:text-6xl font-bold text-white mb-8">
+                            Welcome to Our Platform
+                        </h2>
+                        <p className="text-xl md:text-2xl max-w-4xl mx-auto text-gray-300">
+                            Discover our digital tools, meet our partners, and explore the pilot regions where we are making a difference.
+                        </p>
+                    </div>
                 </div>
-                <h3>Contact</h3>
-                <p><a href="mailto:ozdemirm@udel.edu">ozdemirm@udel.edu</a></p>
-            </div>
-            <div class="footer-col">
-                <h3>Privacy information</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Cookies Policy</a></li>
-                </ul>
-                <p class="copyright">Copyright INCREASE4MED 2026 | Web Design by Mesut Özdemir</p>
-            </div>
-        </div>
-    </footer>
-    
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="script.js"></script>
+            );
+        };
+
+        // React uygulamasını 'root' ID'li div'e render et
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(<App />);
+
+    </script>
 </body>
 </html>
