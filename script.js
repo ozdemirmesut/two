@@ -1,17 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- BÖLÜM 1: HEADER VE ARAMA FONKSİYONLARI ---
-    
+     
     const header = document.getElementById('site-header');
     const mainContent = document.querySelector('main');
-    
+     
     // Sayfanın üst boşluğunu header'ın başlangıç yüksekliğine göre ayarla
     function setMainPadding() {
-        const headerHeight = header.offsetHeight;
-        mainContent.style.paddingTop = `${headerHeight}px`;
+        if (header && mainContent) {
+            const headerHeight = header.offsetHeight;
+            mainContent.style.paddingTop = `${headerHeight}px`;
+        }
     }
 
-    // Sadece header varsa bu fonksiyonları çalıştır
+    // Header varsa bu fonksiyonları çalıştır
     if (header) {
         setMainPadding();
         window.addEventListener('resize', setMainPadding);
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTime();
         setInterval(updateTime, 10000);
     }
-    
+     
     // Arama Fonksiyonu
     const searchIcon = document.getElementById('search-icon');
     const searchOverlay = document.getElementById('search-overlay');
@@ -51,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         closeSearch.addEventListener('click', () => {
-            searchOverlay.style.display = 'none';
+            searchOverlay.style.none = 'none'; // 'display = none' olması gerekiyor
         });
 
         searchButton.addEventListener('click', performSearch);
@@ -63,21 +65,66 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function performSearch() {
-        // ... (Arama fonksiyonu içeriği önceki ile aynı)
+        const query = searchInput.value.toLowerCase();
+        removeHighlights(); // Önceki vurguları kaldır
+
+        if (query) {
+            const mainContent = document.querySelector('main');
+            let found = false;
+            if (mainContent) {
+                const walk = document.createTreeWalker(mainContent, NodeFilter.SHOW_TEXT, null, false);
+                let node;
+                while (node = walk.nextNode()) {
+                    const text = node.nodeValue;
+                    const lowerText = text.toLowerCase();
+                    let lastIndex = 0;
+                    let newHtml = '';
+
+                    while (lastIndex < text.length) {
+                        const startIndex = lowerText.indexOf(query, lastIndex);
+                        if (startIndex === -1) {
+                            newHtml += text.substring(lastIndex);
+                            break;
+                        }
+
+                        newHtml += text.substring(lastIndex, startIndex);
+                        newHtml += `<mark class="highlight">${text.substring(startIndex, startIndex + query.length)}</mark>`;
+                        lastIndex = startIndex + query.length;
+                        found = true;
+                    }
+
+                    if (found) {
+                        const span = document.createElement('span');
+                        span.innerHTML = newHtml;
+                        node.parentNode.replaceChild(span, node);
+                    }
+                }
+            }
+            if (!found) {
+                alert('No results found for "' + query + '"');
+            }
+        }
     }
 
     function removeHighlights() {
-        // ... (Vurgu kaldırma fonksiyonu içeriği önceki ile aynı)
+        document.querySelectorAll('mark.highlight').forEach(mark => {
+            const parent = mark.parentNode;
+            parent.replaceChild(document.createTextNode(mark.textContent), mark);
+            parent.normalize(); // Metin düğümlerini birleştir
+        });
     }
 
     // Aktif Sayfa Linkini Belirleme
     const navLinks = document.querySelectorAll('.main-nav ul li a');
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     navLinks.forEach(link => {
-        if(link.getAttribute('href') === currentPage) {
+        // Linkin href değerindeki dosya adını al
+        const linkHrefFile = link.getAttribute('href').split('/').pop();
+        if(linkHrefFile === currentPage) {
             link.classList.add('active-page');
         }
     });
+
 
     // --- BÖLÜM 2: SAYFAYA ÖZEL FONKSİYONLAR ---
 
@@ -96,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 8, name: 'CSIC', country: 'Spain', lat: 41.387511, lon: 2.114585 },
             { id: 9, name: 'AMAYA', country: 'Spain', lat: 37.360054, lon: -6.332238 }
         ];
-        
+         
         var partnerMap = L.map('partner-map').setView([39.5, 12], 4);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -131,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
     }
-    
+     
     // Kart Animasyonları
     const cards = document.querySelectorAll('.card, .pilot-card');
     if (cards.length > 0) {
