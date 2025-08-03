@@ -1,305 +1,167 @@
-/* Genel Ayarlar ve Değişkenler */
-:root {
-    --primary-color: #0d2c4a;
-    --secondary-color: #f07c00;
-    --accent-color: #4CAF50;
-    --map-highlight-color: #275317; /* İstenen Koyu Yeşil */
-    --highlight-color: #ffc107;
-    --text-color: #333;
-    --light-gray: #f8f9fa;
-    --white: #ffffff;
-    --dark-gray: #555;
-    --font-header: 'Montserrat', sans-serif;
-    --font-body: 'Roboto', sans-serif;
-    --blue-link-color: #007bff; /* Mavi link rengi */
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | INCREASE4MED</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-/* Sıfırlama ve Temel Stil */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
-}
+    <header id="site-header">
+        <div class="top-bar">
+            <a href="index.html" class="logo-container-top">
+                <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Logo">
+            </a>
+            <div class="separator"></div>
+            <p class="project-title-full">
+                INtegrated Catchment-scale REsilience and Naturebased solutions for<br>
+                Scaling up Environmental solutions FOR the MEDiterranean
+            </p>
+        </div>
+        <nav class="main-nav" id="main-nav">
+            <div class="nav-container">
+                <a href="index.html" class="scrolled-logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Scrolled Logo">
+                </a>
+                <ul>
+                    <li><a href="index.html">Home <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="about.html">About Project <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="objectives.html">Objectives <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="pilots.html">Pilot Regions <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="partners.html">Partners <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="documents.html">Documents <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="news.html">News <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                    <li><a href="contact.html">Contact <i class="fas fa-angle-down nav-arrow"></i></a></li>
+                </ul>
+                <div class="nav-right">
+                    <div id="current-time" class="time-display"></div>
+                    <div id="search-icon" class="icon-wrapper"><i class="fas fa-search"></i></div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="search-overlay">
+        <span id="close-search">×</span>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search the website..."><button id="search-button">Search</button>
+        </div>
+    </div>
+    
+    <main class="page-container">
+        <section class="content-section">
+            <div class="contact-wrapper">
+                <div class="contact-header">
+                    <h1>Contact our team</h1>
+                    <p>Got a question or need help with anything? Reach out using the form below, and our team will respond within 3-5 business days.</p>
+                </div>
+                <div class="contact-body">
+                    <div class="contact-form">
+                        <form action="#">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="first-name">First name</label>
+                                    <input type="text" id="first-name" placeholder="First name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-name">Last name</label>
+                                    <input type="text" id="last-name" placeholder="Last name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="you@company.com">
+                            </div>
+                            <div class="form-group phone-group">
+                                <label for="phone">Phone number</label>
+                                <div class="phone-input-container">
+                                    <select id="country-code" class="country-code-select">
+                                        <option value="+90">TR (+90)</option>
+                                        <option value="+1">US (+1)</option>
+                                        <option value="+44">UK (+44)</option>
+                                        <option value="+49">DE (+49)</option>
+                                        <option value="+33">FR (+33)</option>
+                                        <option value="+34">ES (+34)</option>
+                                        <option value="+39">IT (+39)</option>
+                                        <option value="+30">GR (+30)</option>
+                                        <option value="+962">JO (+962)</option>
+                                        <option value="+212">MA (+212)</option>
+                                        <!-- Diğer ülkeleri buraya ekleyebilirsin -->
+                                    </select>
+                                    <input type="tel" id="phone" placeholder="555 000 0000">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" rows="5" placeholder="Leave us a message..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Services</label>
+                                <div class="checkbox-grid">
+                                    <div><input type="checkbox" id="s1"><label for="s1">Website design</label></div>
+                                    <div><input type="checkbox" id="s2"><label for="s2">NBS design</label></div>
+                                    <div><input type="checkbox" id="s3"><label for="s3">Farmers</label></div>
+                                    <div><input type="checkbox" id="s4"><label for="s4">Stakeholder</label></div>
+                                    <div><input type="checkbox" id="s5"><label for="s5">Strategy & consulting</label></div>
+                                    <div><input type="checkbox" id="s6"><label for="s6">Other</label></div>
+                                </div>
+                            </div>
+                            <button type="submit" class="submit-btn">Send message</button>
+                        </form>
+                    </div>
+                    <div class="contact-info-col">
+                        <h3>Email us</h3>
+                        <a href="mailto:info@example.com" class="contact-link blue-link"><i class="fas fa-paper-plane"></i> Shoot us an email</a>
+                        <a href="https://x.com/ozdemirmesut" class="contact-link blue-link"><i class="fab fa-twitter"></i> Message us on X</a>
+                        
+                        <h3 style="margin-top: 2rem;">Visit us</h3>
+                        <p>Chat to us in person at our Main Building.</p>
+                        <a href="https://maps.app.goo.gl/ePL7u5Fq199UBQck6" target="_blank" class="contact-link blue-link"><i class="fas fa-map-marker-alt"></i> Camikebir Mah, Menemen Maltepe Yolu No: 27/1, 35660 Menemen/İzmir</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-body {
-    font-family: var(--font-body);
-    line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--white);
-}
-
-/* HEADER STİLLERİ */
-header {
-    background-color: var(--white);
-    position: relative;
-    width: 100%;
-    z-index: 1000;
-}
-
-.top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 2rem;
-    border-bottom: 1px solid #e0e0e0;
-    transition: height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
-    height: 85px; /* Başlangıç yüksekliği */
-}
-
-.logo-container-top img {
-    height: 50px;
-}
-
-.separator {
-    width: 1px;
-    height: 40px;
-    background-color: #ccc;
-    margin: 0 1.5rem;
-}
-
-.project-title-full {
-    font-size: 0.9rem;
-    color: var(--dark-gray);
-    line-height: 1.4;
-}
-
-.main-nav {
-    background-color: var(--white);
-    width: 100%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: all 0.4s ease;
-}
-
-/* Kaydırma Efekti Stilleri */
-header.scrolled .main-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-header.scrolled .top-bar {
-    height: 0;
-    padding: 0 2rem;
-    opacity: 0;
-    overflow: hidden;
-    border-bottom: none;
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-.scrolled-logo {
-    opacity: 0; /* Başlangıçta gizli */
-    transform: translateX(-20px);
-    transition: all 0.4s ease;
-    width: 0; /* Başlangıçta yer kaplamaz */
-}
-
-.scrolled-logo img {
-    height: 40px;
-}
-
-header.scrolled .scrolled-logo {
-    opacity: 1; /* Kaydırıldığında görünür */
-    transform: translateX(0);
-    width: auto; /* Gerektiği kadar yer kaplar */
-    margin-right: 2rem;
-}
-
-.main-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-.main-nav ul li a {
-    text-decoration: none;
-    color: var(--dark-gray);
-    font-weight: 700;
-    font-size: 0.9rem;
-    padding: 1.2rem 1rem;
-    display: flex;
-    align-items: center;
-    transition: color 0.3s;
-}
-
-.main-nav ul li a:hover,
-.main-nav ul li a.active-page { /* Aktif sayfa stili */
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: calc(1.2rem - 2px);
-}
-
-.nav-arrow {
-    font-size: 0.8rem;
-    margin-left: 6px;
-    opacity: 0.6;
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-left: auto; /* Sağa yaslamak için */
-}
-
-.time-display {
-    font-size: 0.9rem;
-    color: var(--dark-gray);
-    white-space: nowrap;
-}
-
-.icon-wrapper {
-    font-size: 1.2rem;
-    color: var(--dark-gray);
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.icon-wrapper:hover {
-    color: var(--primary-color);
-}
-
-
-/* Arama Kutusu */
-#search-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center;
-}
-#close-search { position: absolute; top: 30px; right: 50px; color: white; font-size: 4rem; cursor: pointer; }
-.search-box { display: flex; width: 60%; max-width: 700px; }
-#search-input { width: 100%; padding: 1rem; font-size: 1.2rem; border: none; border-radius: 5px 0 0 5px; outline: none; }
-#search-button { padding: 1rem 2rem; border: none; background: var(--primary-color); color: white; font-size: 1.2rem; cursor: pointer; border-radius: 0 5px 5px 0; }
-mark.highlight { background-color: var(--highlight-color); color: black; border-radius: 3px; }
-
-
-/* Ana Bölümler */
-main { padding-top: 0; }
-.page-container { padding-top: 150px; } /* Header boşluğu */
-.content-section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; text-align: center; }
-.content-section h1, .content-section h2 { font-family: var(--font-header); font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color); }
-.content-section > p, .page-intro { margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
-.gray-bg { background-color: var(--light-gray); }
-
-/* Hero Bölümü */
-.hero-section { background: linear-gradient(rgba(13, 44, 74, 0.7), rgba(13, 44, 74, 0.7)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1932&auto=format&fit=crop') no-repeat center center/cover; height: 80vh; display: flex; justify-content: center; align-items: center; color: white; text-align: center; }
-.hero-content h1 { font-size: 3rem; }
-
-/* Kart Yapıları */
-.card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; text-align: left; }
-.card, .pilot-card { background-color: var(--white); padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; }
-.card:hover, .pilot-card:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-.card h3 { font-family: var(--font-header); color: var(--primary-color); margin-bottom: 1rem; }
-.pilot-card h4 { font-family: var(--font-header); color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem; }
-.pilot-card p { font-size: 0.9rem; }
-
-/* Ortaklık Haritası */
-#partner-map { height: 550px; width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 2rem; }
-
-/* Logo Kaydırma Bandı */
-@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.logo-slider-container { width: 100%; overflow: hidden; padding: 2rem 0; margin-top: 2rem; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; }
-.logo-slider { display: flex; align-items: center; width: calc(180px * 18); animation: scroll 40s linear infinite; }
-.logo-slider img { height: 50px; width: auto; margin: 0 20px; filter: grayscale(100%); opacity: 0.7; transition: filter 0.3s, opacity 0.3s; }
-.logo-slider img:hover { filter: grayscale(0%); opacity: 1; }
-
-/* Contact Sayfası Stilleri */
-.contact-wrapper { max-width: 1100px; margin: 2rem auto; padding: 2rem; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.05); text-align: left; }
-.contact-header { margin-bottom: 2rem; }
-.contact-header p { font-size: 1rem; color: var(--dark-gray); text-align: left; max-width: 100%;}
-.contact-body { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; }
-.form-row { display: flex; gap: 1rem; }
-.form-group { margin-bottom: 1.5rem; width: 100%; }
-.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-.form-group input, .form-group textarea { width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc; font-family: var(--font-body); font-size: 1rem; }
-
-/* Telefon Numarası Seçim Alanı */
-.phone-input-container {
-    display: flex;
-    gap: 0.5rem; /* Seçici ile input arasında boşluk */
-}
-
-.country-code-select {
-    padding: 0.8rem 0.5rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    min-width: 100px; /* Sabit genişlik veya uygun bir genişlik */
-}
-
-
-/* Checkbox'lar için Grid Düzeni */
-.checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 sütunlu düzen */
-    gap: 0.5rem 1rem; /* Satır ve sütun boşlukları */
-}
-
-.checkbox-grid div {
-    display: flex;
-    align-items: center;
-}
-
-.checkbox-grid input[type="checkbox"] {
-    margin-right: 0.5rem;
-    width: auto; /* Checkbox'ın kendi genişliğini koruması için */
-}
-
-
-.submit-btn { width: 100%; padding: 1rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; }
-.submit-btn:hover { background-color: #091e32; }
-.contact-info-col h3 { font-family: var(--font-header); margin-bottom: 1rem; }
-
-/* Mavi Link Stili */
-.contact-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--dark-gray); margin-bottom: 1rem; }
-.contact-link i { color: var(--primary-color); font-size: 1.2rem; }
-
-.blue-link {
-    color: var(--blue-link-color); /* Yeni tanımlanan mavi renk */
-}
-.blue-link:hover {
-    text-decoration: underline;
-}
-.blue-link i {
-    color: var(--blue-link-color); /* İkon da mavi olsun */
-}
-
-
-/* Footer */
-.site-footer { background-color: var(--light-gray); color: var(--dark-gray); padding: 4rem 2rem; font-size: 0.9rem; }
-.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
-.footer-col { padding: 0 1rem; }
-.footer-col h3 { font-family: var(--font-header); color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.1rem; }
-.footer-project-desc { margin-bottom: 1.5rem; line-height: 1.5; }
-.footer-logo { width: 150px; }
-.social-icons a { color: var(--dark-gray); font-size: 1.5rem; margin-right: 1rem; transition: color 0.3s; }
-.social-icons a:hover { color: var(--secondary-color); }
-.footer-links { list-style: none; padding: 0; }
-.footer-links li { margin-bottom: 0.75rem; }
-.footer-links a, .footer-col > p > a { text-decoration: none; color: var(--dark-gray); transition: color 0.3s; }
-.footer-links a:hover, .footer-col > p > a:hover { color: var(--secondary-color); }
-.copyright { margin-top: 1.5rem; font-size: 0.8rem; color: #888; }
-
-/* Mobil Duyarlılık */
-@media (max-width: 1024px) {
-    .main-nav ul { display: none; }
-    .nav-right { display: none; }
-    .nav-container { justify-content: center; }
-    header.scrolled .scrolled-logo { margin-right: 0; }
-    header.scrolled .nav-container { justify-content: center; }
-    .project-title-full { display: none; }
-    .separator { display: none; }
-    .top-bar { justify-content: center; }
-    .contact-body { grid-template-columns: 1fr; }
-    .checkbox-grid { /* Mobil görünümde checkbox'ları tek sütuna düşür */
-        grid-template-columns: 1fr;
-    }
-}
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>INCREASE4MED</h3>
+                <p class="footer-project-desc">Integrated Catchment-scale REsilience and Naturebased solutions for Scaling up Environmental solutions FOR the MEDiterranean</p>
+                <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/Increase4MED_1.png" alt="INCREASE4MED Logo" class="footer-logo">
+            </div>
+            <div class="footer-col">
+                <h3>Tweets by INCREASE4MED_PRIMA</h3>
+                <a class="twitter-timeline" data-height="300" data-theme="light" href="https://x.com/ozdemirmesut">Tweets by ozdemirmesut</a> 
+            </div>
+            <div class="footer-col">
+                <h3>Follow us</h3>
+                <div class="social-icons">
+                    <a href="https://x.com/ozdemirmesut" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/ozdemirmesut/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+                <h3>Contact</h3>
+                <p><a href="mailto:ozdemirm@udel.edu">ozdemirm@udel.edu</a></p>
+            </div>
+            <div class="footer-col">
+                <h3>Privacy information</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookies Policy</a></li>
+                </ul>
+                <p class="copyright">Copyright INCREASE4MED 2026 | Web Design by Mesut Özdemir</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
