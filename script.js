@@ -1,215 +1,114 @@
-document.addEventListener('DOMContentLoaded', () => {
+// React Hook'larını ve Framer Motion fonksiyonlarını global 'React' ve 'FramerMotion' objelerinden alıyoruz.
+const { motion, useScroll, useTransform } = FramerMotion;
+const { useRef, useEffect } = React;
+const { createRoot } = ReactDOM;
 
-    // --- BÖLÜM 1: HEADER VE ARAMA FONKSİYONLARI ---
-     
-    const header = document.getElementById('site-header');
-    const mainContent = document.querySelector('main');
-     
-    // Sayfanın üst boşluğunu header'ın başlangıç yüksekliğine göre ayarla
-    function setMainPadding() {
-        if (header && mainContent) {
-            const headerHeight = header.offsetHeight;
-            mainContent.style.paddingTop = `${headerHeight}px`;
-        }
-    }
+// Ana React bileşenimiz
+const App = () => {
+    // Slogan bölümü için DOM elementine referans oluşturuyoruz.
+    const sloganRef = useRef(null);
+    
+    // Başlık ve Parallax bölümü için DOM elementine referans oluşturuyoruz.
+    const titleRef = useRef(null);
 
-    // Header varsa bu fonksiyonları çalıştır
-    if (header) {
-        setMainPadding();
-        window.addEventListener('resize', setMainPadding);
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    }
-
-    const timeDisplay = document.getElementById('current-time');
-    // Sadece saat elementi varsa çalıştır
-    if (timeDisplay) {
-        function updateTime() {
-            const now = new Date();
-            const options = { weekday: 'long', day: '2-digit', month: 'long', hour: '2-digit', minute: '2-digit' };
-            timeDisplay.textContent = now.toLocaleDateString('en-US', options); // İngilizce format
-        }
-        updateTime();
-        setInterval(updateTime, 10000);
-    }
-     
-    // Arama Fonksiyonu
-    const searchIcon = document.getElementById('search-icon');
-    const searchOverlay = document.getElementById('search-overlay');
-    const closeSearch = document.getElementById('close-search');
-    const searchButton = document.getElementById('search-button');
-    const searchInput = document.getElementById('search-input');
-
-    if (searchIcon) {
-        searchIcon.addEventListener('click', () => {
-            searchOverlay.style.display = 'flex';
-            searchInput.focus();
-        });
-
-        closeSearch.addEventListener('click', () => {
-            searchOverlay.style.display = 'none'; // Düzeltildi: .none yerine .display = 'none'
-        });
-
-        searchButton.addEventListener('click', performSearch);
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-    }
-
-    function performSearch() {
-        const query = searchInput.value.toLowerCase();
-        removeHighlights(); // Önceki vurguları kaldır
-
-        if (query) {
-            const mainContent = document.querySelector('main');
-            let found = false;
-            if (mainContent) {
-                const walk = document.createTreeWalker(mainContent, NodeFilter.SHOW_TEXT, null, false);
-                let node;
-                while (node = walk.nextNode()) {
-                    const text = node.nodeValue;
-                    const lowerText = text.toLowerCase();
-                    let lastIndex = 0;
-                    let newHtml = '';
-
-                    while (lastIndex < text.length) {
-                        const startIndex = lowerText.indexOf(query, lastIndex);
-                        if (startIndex === -1) {
-                            newHtml += text.substring(lastIndex);
-                            break;
-                        }
-
-                        newHtml += text.substring(lastIndex, startIndex);
-                        newHtml += `<mark class="highlight">${text.substring(startIndex, startIndex + query.length)}</mark>`;
-                        lastIndex = startIndex + query.length;
-                        found = true;
-                    }
-
-                    if (found) {
-                        const span = document.createElement('span');
-                        span.innerHTML = newHtml;
-                        node.parentNode.replaceChild(span, node);
-                    }
-                }
-            }
-            if (!found) {
-                alert('No results found for "' + query + '"');
-            }
-        }
-    }
-
-    function removeHighlights() {
-        document.querySelectorAll('mark.highlight').forEach(mark => {
-            const parent = mark.parentNode;
-            parent.replaceChild(document.createTextNode(mark.textContent), mark);
-            parent.normalize(); // Metin düğümlerini birleştir
-        });
-    }
-
-    // Aktif Sayfa Linkini Belirleme
-    const navLinks = document.querySelectorAll('.main-nav ul li a');
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    navLinks.forEach(link => {
-        // Linkin href değerindeki dosya adını al
-        const linkHrefFile = link.getAttribute('href').split('/').pop();
-        if(linkHrefFile === currentPage) {
-            link.classList.add('active-page');
-        }
+    // Slogan bölümündeki scroll ilerlemesini 0'dan 1'e kadar yakalar.
+    const { scrollYProgress: sloganProgress } = useScroll({
+        target: sloganRef,
+        offset: ['start start', 'end end'],
     });
 
+    // Başlık bölümündeki scroll ilerlemesini yakalar.
+    const { scrollYProgress: titleProgress } = useScroll({
+        target: titleRef,
+        offset: ['start start', 'end end'],
+    });
 
-    // --- BÖLÜM 2: SAYFAYA ÖZEL FONKSİYONLAR ---
+    // Sloganların her biri için scroll'a bağlı opacity değerlerini hesaplama
+    const slogan1Opacity = useTransform(sloganProgress, [0, 0.25, 0.30], [1, 1, 0]);
+    const slogan2Opacity = useTransform(sloganProgress, [0.25, 0.30, 0.50, 0.55], [0, 1, 1, 0]);
+    const slogan3Opacity = useTransform(sloganProgress, [0.50, 0.55, 0.75, 0.80], [0, 1, 1, 0]);
+    const slogan4Opacity = useTransform(sloganProgress, [0.75, 0.80, 1], [0, 1, 1]);
 
-    // Harita Fonksiyonu (Sadece index.html'de çalışır)
-    const mapContainer = document.getElementById('partner-map');
-    if (mapContainer) {
-        const partnerCountries = ['Turkey', 'Italy', 'Spain', 'Morocco', 'Jordan', 'Greece'];
-        const institutions = [
-            { id: 1, name: 'UTAEM', country: 'Turkey', lat: 38.624890, lon: 27.044464 },
-            { id: 2, name: 'UOWM', country: 'Greece', lat: 40.323113, lon: 21.791430 },
-            { id: 3, name: 'CNR', country: 'Italy', lat: 43.092912, lon: 12.363602 },
-            { id: 4, name: 'IRID', country: 'Italy', lat: 43.781965, lon: 11.262461 },
-            { id: 5, name: 'NARC', country: 'Jordan', lat: 32.079133, lon: 35.842739 },
-            { id: 6, name: 'INRA', country: 'Morocco', lat: 34.009061, lon: -6.850004 },
-            { id: 7, name: 'NOVADAYS', country: 'Spain', lat: 40.487807, lon: -3.665633 },
-            { id: 8, name: 'CSIC', country: 'Spain', lat: 41.387511, lon: 2.114585 },
-            { id: 9, name: 'AMAYA', country: 'Spain', lat: 37.360054, lon: -6.332238 }
-        ];
-         
-        var partnerMap = L.map('partner-map').setView([39.5, 12], 4);
+    // Başlık ve Parallax bölümü için animasyon değerleri
+    const mainTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.5]);
+    const mainTitleY = useTransform(titleProgress, [0, 0.3], [0, -100]); 
+    const subTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.8]);
+    const subTitleY = useTransform(titleProgress, [0, 0.3], [0, -70]); 
+    const bg2Scale = useTransform(titleProgress, [0, 0.8], [1, 1.2]); 
+    const bg2Opacity = useTransform(titleProgress, [0.7, 0.8], [1, 0]); 
+    const bg1Scale = useTransform(titleProgress, [0.8, 1], [1, 1.2]); 
+    const bg1Opacity = useTransform(titleProgress, [0.8, 1], [0, 1]); 
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(partnerMap);
+    // Tekrarlanan slogan h1 bileşeni
+    const SloganComponent = ({ text, opacity }) => (
+        <motion.h1
+            style={{ opacity }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-4xl sm:text-5xl md:text-6xl font-bold max-w-5xl px-4"
+        >
+            {text}
+        </motion.h1>
+    );
 
-        fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/main/countries.geojson')
-            .then(response => response.json())
-            .then(data => {
-                L.geoJSON(data, {
-                    style: function(feature) {
-                        const countryName = feature.properties.name;
-                        const isPartner = partnerCountries.includes(countryName);
-                        return {
-                            fillColor: isPartner ? '#275317' : '#cccccc',
-                            weight: isPartner ? 1.5 : 1,
-                            opacity: 1,
-                            color: isPartner ? '#275317' : 'white',
-                            fillOpacity: isPartner ? 0.55 : 0.3
-                        };
-                    }
-                }).addTo(partnerMap);
+    return (
+        <div className="antialiased">
+            {/* ========================================================================
+                Bölüm 1: Sloganlar Bölümü
+                ========================================================================
+            */}
+            <div ref={sloganRef} className="relative h-[400vh]">
+                <SloganComponent text="Building climate resilience in the Mediterranean together—with nature-based solutions." opacity={slogan1Opacity} />
+                <SloganComponent text="Delivering region-specific, replicable, and scalable models." opacity={slogan2Opacity} />
+                <SloganComponent text="A data-driven, participatory, and sustainable transformation." opacity={slogan3Opacity} />
+                <SloganComponent text="Accessible digital tools—for everyone from farmers to policymakers." opacity={slogan4Opacity} />
+            </div>
 
-                institutions.forEach(inst => {
-                    const iconHtml = `<div style="background:#275317;border-radius:50%;width:25px;height:25px;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:14px;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.2);">${inst.id}</div>`;
-                    const customIcon = L.divIcon({ html: iconHtml, className: '' });
+            {/* ========================================================================
+                Bölüm 2: Başlık ve Parallax Efektleri Bölümü
+                ========================================================================
+            */}
+            <div ref={titleRef} className="h-[200vh] relative">
+                <div className="sticky-container">
+                    <motion.div
+                        style={{ 
+                            scale: bg2Scale, 
+                            opacity: bg2Opacity, 
+                            backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_2.png')" 
+                        }}
+                        className="absolute inset-0 z-0 bg-cover bg-center"
+                    />
 
-                    L.marker([inst.lat, inst.lon], { icon: customIcon })
-                        .addTo(partnerMap)
-                        .bindPopup(`<b>${inst.name}</b><br>${inst.country}`);
-                });
-            });
-    }
-     
-    // Kart Animasyonları
-    const cards = document.querySelectorAll('.card, .pilot-card');
-    if (cards.length > 0) {
-        const cardObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
-                    cardObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
+                    <motion.div
+                        style={{ 
+                            scale: bg1Scale, 
+                            opacity: bg1Opacity,
+                            backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_1.png')" 
+                        }}
+                        className="absolute inset-0 z-10 bg-cover bg-center"
+                    />
+                    
+                    <div className="relative z-20 text-center flex flex-col items-center">
+                        <motion.h2
+                            style={{ scale: mainTitleScale, y: mainTitleY }}
+                            className="text-6xl md:text-8xl lg:text-9xl font-extrabold mb-4 text-white drop-shadow-lg"
+                        >
+                            INCREASE4MED
+                        </motion.h2>
 
-        cards.forEach(card => {
-            card.style.opacity = 0;
-            cardObserver.observe(card);
-        });
-    }
-});
+                        <motion.p
+                            style={{ scale: subTitleScale, y: subTitleY }}
+                            className="text-lg md:text-xl lg:text-2xl font-light text-white drop-shadow-lg max-w-4xl px-4"
+                        >
+                            INtegrated Catchment-scale REsilience and Naturebased solutions<br />
+                            for Scaling up Environmental solutions FOR the MEDiterranean
+                        </motion.p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
-// Animasyon için CSS anahtar kareleri
-const style = document.createElement('style');
-style.innerHTML = `
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-`;
-document.head.appendChild(style);
+// React uygulamasını 'react-root' ID'li div'e render et
+const container = document.getElementById('react-root');
+const root = createRoot(container);
+root.render(<App />);
