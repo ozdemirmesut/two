@@ -11,13 +11,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/framer-motion@latest/dist/framer-motion.umd.js"></script>
     
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         /* ========================================================================
            GENEL STİLLER
@@ -40,7 +42,9 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            scroll-behavior: smooth;
+            /* Smooth scroll sadece HTML elementleri için geçerlidir.
+               React scroll animasyonları Framer Motion tarafından yönetilir. */
+            scroll-behavior: smooth; 
         }
 
         /* React bölümü hariç genel body ayarları */
@@ -180,7 +184,8 @@
         /* ========================================================================
            ANA İÇERİK ve KART STİLLERİ
            ======================================================================== */
-        main { padding-top: 0; }
+        /* main elemanının padding-top'unu sıfırlıyoruz çünkü React root'u artık bu görevi üstlenecek. */
+        main { padding-top: 0; } 
         .content-section {
             padding: 4rem 2rem; max-width: 1200px;
             margin: 0 auto; text-align: center;
@@ -279,7 +284,10 @@
             background-color: #000; /* Bu bölüme özel arka plan rengi */
             color: #fff; /* Bu bölüme özel metin rengi */
             font-family: 'Inter', sans-serif; /* Bu bölüme özel font */
+            /* Ensure smooth scrolling behavior within the React section */
+            scroll-behavior: smooth; 
         }
+
         .sticky-container {
             position: sticky;
             top: 0;
@@ -289,14 +297,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Performans iyileştirmeleri */
+            will-change: transform, opacity; 
         }
-        .full-screen-section { /* Bu sınıf şu an kullanılmıyor ama React App'de tanımlıydı, tutabiliriz */
+
+        /* Full screen section for slogans and titles to ensure they take full viewport height */
+        .full-screen-section {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* Gizli taşmaları önler */
+            /* Performans iyileştirmeleri */
+            will-change: transform, opacity; 
+        }
+
+        /* Ensuring smooth transitions for Framer Motion elements */
+        .framer-motion-element {
+            /* smooth-scroll-behavior: inherit; */ /* No direct CSS for this, handled by Framer Motion */
+            /* For ensuring clarity and smoothness, apply common performance tips */
+            backface-visibility: hidden;
+            perspective: 1000px;
         }
 
         /* ========================================================================
@@ -311,6 +333,19 @@
             .project-title-full { display: none; }
             .separator { display: none; }
             .top-bar { justify-content: center; }
+            
+            /* Sloganlar ve başlıklar için mobil font boyutları */
+            #react-root .text-4xl { font-size: 2.25rem; } /* Default 4xl for base */
+            #react-root .sm\:text-5xl { font-size: 2.5rem; } /* Override sm:text-5xl */
+            #react-root .md\:text-6xl { font-size: 3rem; } /* Override md:text-6xl */
+            
+            #react-root .text-6xl { font-size: 3.5rem; } /* Default 6xl for base */
+            #react-root .md\:text-8xl { font-size: 4.5rem; } /* Override md:text-8xl */
+            #react-root .lg\:text-9xl { font-size: 5.5rem; } /* Override lg:text-9xl */
+
+            #react-root .text-lg { font-size: 1rem; }
+            #react-root .md\:text-xl { font-size: 1.125rem; }
+            #react-root .lg\:text-2xl { font-size: 1.25rem; }
         }
     </style>
 </head>
@@ -368,7 +403,7 @@
                     <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/loog_utaem.png" alt="UTAEM Logo">
                     <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_uowm.png" alt="UOWM Logo">
                     <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_cnr.png" alt="CNR Logo">
-                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_iridra.png" alt="IRIDRA Logo">
+                    <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e56db32c2f2c18a1eb4bca6b24a6eb8d/image/logo_iridra.png" alt="IRIDRA Logo">
                     <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_narc.png" alt="NARC Logo">
                     <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_inra.png" alt="INRA Logo">
                     <img src="https://raw.githubusercontent.com/ozdemirmesut/two/27aabf32c4a908e57a78349558bc2f31ce6e44b3/image/logo_novadays.png" alt="NOVADAYS Logo">
@@ -441,6 +476,141 @@
     
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="text/babel">
+        // ========================================================================
+        // React ve Framer Motion ile Landing Page Animasyonları
+        // ========================================================================
+        
+        // Gerekli React ve Framer Motion hook'larını ve fonksiyonlarını alıyoruz.
+        const { motion, useScroll, useTransform } = FramerMotion;
+        const { useRef, useEffect } = React;
+        const { createRoot } = ReactDOM;
+
+        // Ana React bileşenimiz
+        const App = () => {
+            // Sloganlar ve başlıklar için referanslar (scroll pozisyonlarını takip etmek için)
+            const sloganRef = useRef(null);
+            const titleRef = useRef(null);
+
+            // Slogan bölümündeki scroll ilerlemesini yakalar (0'dan 1'e)
+            // 'start start': Hedef element viewport'ın en üstüne geldiğinde ilerleme 0.
+            // 'end end': Hedef element viewport'ın en altından ayrıldığında ilerleme 1.
+            const { scrollYProgress: sloganProgress } = useScroll({
+                target: sloganRef,
+                offset: ['start start', 'end end'],
+            });
+
+            // Başlık ve parallax bölümündeki scroll ilerlemesini yakalar
+            const { scrollYProgress: titleProgress } = useScroll({
+                target: titleRef,
+                offset: ['start start', 'end end'],
+            });
+
+            // Sloganların opacity (şeffaflık) animasyonları
+            // useTransform, bir scroll ilerlemesi aralığını (ilk dizi) başka bir değer aralığına (ikinci dizi) dönüştürür.
+            // Bu sayede sloganlar belirli scroll noktalarında fade-in/fade-out olur.
+            const slogan1Opacity = useTransform(sloganProgress, [0, 0.20, 0.25], [0, 1, 0]); // 0-20% fade-in, 20-25% fade-out
+            const slogan2Opacity = useTransform(sloganProgress, [0.25, 0.45, 0.50], [0, 1, 0]); // 25-45% fade-in, 45-50% fade-out
+            const slogan3Opacity = useTransform(sloganProgress, [0.50, 0.70, 0.75], [0, 1, 0]); // 50-70% fade-in, 70-75% fade-out
+            const slogan4Opacity = useTransform(sloganProgress, [0.75, 0.95, 1], [0, 1, 1]);   // 75-95% fade-in, 95-100% visible
+
+            // Başlık ve arka plan parallax animasyonları
+            // Main Başlık (INCREASE4MED): Scroll oldukça küçülür ve yukarı hareket eder (sticky effect)
+            const mainTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.5]); 
+            const mainTitleY = useTransform(titleProgress, [0, 0.3], ['0vh', '-25vh']); // 'vh' ile daha dinamik hareket
+
+            // Alt Başlık (Tam adı): Scroll oldukça küçülür ve yukarı hareket eder
+            const subTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.8]);
+            const subTitleY = useTransform(titleProgress, [0, 0.3], ['0vh', '-15vh']);
+
+            // background_2.png: Hafifçe büyür ve kaybolur (parallax)
+            const bg2Scale = useTransform(titleProgress, [0, 0.7, 0.8], [1, 1.1, 1.2]); // Daha yumuşak büyüme
+            const bg2Opacity = useTransform(titleProgress, [0.7, 0.8], [1, 0]); // 70% noktasından sonra kaybolmaya başlar
+
+            // background_1.png: Belirginleşir ve hafifçe büyür (parallax)
+            // bg2 kaybolurken bg1 belirginleşmeye başlar.
+            const bg1Scale = useTransform(titleProgress, [0.8, 1], [1, 1.2]); 
+            const bg1Opacity = useTransform(titleProgress, [0.8, 1], [0, 1]); 
+
+            // Tekrarlanan slogan bileşeni (Daha temiz kod için)
+            const SloganComponent = ({ text, opacity }) => (
+                <motion.h1 
+                    style={{ opacity }} 
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-4xl sm:text-5xl md:text-6xl font-extrabold max-w-5xl px-4 text-white select-none whitespace-pre-wrap leading-tight"
+                >
+                    {text}
+                </motion.h1>
+            );
+
+            return (
+                <div className="antialiased">
+                    {/* Sloganlar Bölümü: 400vh yükseklik, her slogan için yeterli scroll alanı sağlar */}
+                    {/* Bu bölümün arka planı karadır. */}
+                    <div ref={sloganRef} className="relative h-[400vh] bg-black flex justify-center items-center">
+                        <SloganComponent text="Building climate resilience in the Mediterranean together—with nature-based solutions." opacity={slogan1Opacity} />
+                        <SloganComponent text="Delivering region-specific, replicable, and scalable models." opacity={slogan2Opacity} />
+                        <SloganComponent text="A data-driven, participatory, and sustainable transformation." opacity={slogan3Opacity} />
+                        <SloganComponent text="Accessible digital tools—for everyone from farmers to policymakers." opacity={slogan4Opacity} />
+                    </div>
+
+                    {/* Başlık ve Parallax Efektleri Bölümü: 200vh yükseklik */}
+                    <div ref={titleRef} className="h-[200vh] relative">
+                        {/* sticky-container: Bu div içindeki elemanların scroll sırasında yapışmasını sağlar */}
+                        <div className="sticky-container">
+                            {/* background_2.png görseli için motion div */}
+                            <motion.div 
+                                style={{ 
+                                    scale: bg2Scale, 
+                                    opacity: bg2Opacity, 
+                                    backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_2.png')",
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    /* Performans optimizasyonu */
+                                    willChange: 'transform, opacity'
+                                }} 
+                                className="absolute inset-0 z-0"
+                            />
+                            {/* background_1.png görseli için motion div */}
+                            <motion.div 
+                                style={{ 
+                                    scale: bg1Scale, 
+                                    opacity: bg1Opacity, 
+                                    backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_1.png')",
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    /* Performans optimizasyonu */
+                                    willChange: 'transform, opacity'
+                                }} 
+                                className="absolute inset-0 z-10"
+                            />
+                            {/* INCREASE4MED başlığı ve tam adı bloğu */}
+                            <div className="relative z-20 text-center flex flex-col items-center justify-center">
+                                <motion.h2 
+                                    style={{ scale: mainTitleScale, y: mainTitleY }} 
+                                    className="text-6xl md:text-8xl lg:text-9xl font-extrabold mb-4 text-white drop-shadow-lg leading-none"
+                                >
+                                    INCREASE4MED
+                                </motion.h2>
+                                <motion.p 
+                                    style={{ scale: subTitleScale, y: subTitleY }} 
+                                    className="text-lg md:text-xl lg:text-2xl font-light text-white drop-shadow-lg max-w-4xl px-4 leading-normal"
+                                >
+                                    INtegrated Catchment-scale REsilience and Naturebased solutions<br />
+                                    for Scaling up Environmental solutions FOR the MEDiterranean
+                                </motion.p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // React uygulamasını 'react-root' ID'li div'e render et
+        const container = document.getElementById('react-root');
+        const root = createRoot(container);
+        root.render(<App />);
+
+    </script>
     <script>
         // DOMContentLoaded event'i, tüm HTML yüklendikten sonra kodun çalışmasını garanti eder.
         document.addEventListener('DOMContentLoaded', () => {
@@ -636,107 +806,5 @@
         style.innerHTML = `@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }`;
         document.head.appendChild(style);
     </script>
-    
-    <script type="text/babel">
-        // React ve Framer Motion kütüphanelerinden gerekli fonksiyonları alıyoruz.
-        const { motion, useScroll, useTransform } = FramerMotion;
-        const { useRef } = React;
-        const { createRoot } = ReactDOM;
-
-        const App = () => {
-            // Slogan bölümü için referans (scroll takibi için)
-            const sloganRef = useRef(null);
-            // Başlık ve Parallax bölümü için referans (scroll takibi için)
-            const titleRef = useRef(null);
-
-            // Slogan bölümündeki scroll ilerlemesini yakalar
-            const { scrollYProgress: sloganProgress } = useScroll({
-                target: sloganRef,
-                offset: ['start start', 'end end'],
-            });
-
-            // Başlık bölümündeki scroll ilerlemesini yakalar
-            const { scrollYProgress: titleProgress } = useScroll({
-                target: titleRef,
-                offset: ['start start', 'end end'],
-            });
-
-            // Sloganların opacity (şeffaflık) animasyonları
-            // Her slogan belirli bir scroll aralığında görünür ve kaybolur
-            const slogan1Opacity = useTransform(sloganProgress, [0, 0.25, 0.30], [1, 1, 0]);
-            const slogan2Opacity = useTransform(sloganProgress, [0.25, 0.30, 0.50, 0.55], [0, 1, 1, 0]);
-            const slogan3Opacity = useTransform(sloganProgress, [0.50, 0.55, 0.75, 0.80], [0, 1, 1, 0]);
-            const slogan4Opacity = useTransform(sloganProgress, [0.75, 0.80, 1], [0, 1, 1]);
-
-            // Başlık ve arka plan parallax animasyonları
-            // Başlık: Küçülür ve yukarı hareket eder
-            const mainTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.5]);
-            const mainTitleY = useTransform(titleProgress, [0, 0.3], [0, -100]); 
-            // Alt Başlık: Küçülür ve yukarı hareket eder
-            const subTitleScale = useTransform(titleProgress, [0, 0.3], [1, 0.8]);
-            const subTitleY = useTransform(titleProgress, [0, 0.3], [0, -70]); 
-            // background_2.png: Hafifçe büyür ve kaybolur
-            const bg2Scale = useTransform(titleProgress, [0, 0.8], [1, 1.2]); 
-            const bg2Opacity = useTransform(titleProgress, [0.7, 0.8], [1, 0]); 
-            // background_1.png: Belirginleşir ve hafifçe büyür
-            const bg1Scale = useTransform(titleProgress, [0.8, 1], [1, 1.2]); 
-            const bg1Opacity = useTransform(titleProgress, [0.8, 1], [0, 1]); 
-
-            // Tekrarlanan slogan bileşeni
-            const SloganComponent = ({ text, opacity }) => (
-                <motion.h1 
-                    style={{ opacity }} 
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-4xl sm:text-5xl md:text-6xl font-bold max-w-5xl px-4"
-                >
-                    {text}
-                </motion.h1>
-            );
-
-            return (
-                <div className="antialiased">
-                    {/* Sloganlar Bölümü */}
-                    <div ref={sloganRef} className="relative h-[400vh]">
-                        <SloganComponent text="Building climate resilience in the Mediterranean together—with nature-based solutions." opacity={slogan1Opacity} />
-                        <SloganComponent text="Delivering region-specific, replicable, and scalable models." opacity={slogan2Opacity} />
-                        <SloganComponent text="A data-driven, participatory, and sustainable transformation." opacity={slogan3Opacity} />
-                        <SloganComponent text="Accessible digital tools—for everyone from farmers to policymakers." opacity={slogan4Opacity} />
-                    </div>
-                    {/* Başlık ve Parallax Efektleri Bölümü */}
-                    <div ref={titleRef} className="h-[200vh] relative">
-                        <div className="sticky-container">
-                            <motion.div 
-                                style={{ scale: bg2Scale, opacity: bg2Opacity, backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_2.png')" }} 
-                                className="absolute inset-0 z-0 bg-cover bg-center"
-                            />
-                            <motion.div 
-                                style={{ scale: bg1Scale, opacity: bg1Opacity, backgroundImage: "url('https://raw.githubusercontent.com/ozdemirmesut/two/626b9089d56db32c2f2c18a1eb4bca6b24a6eb8d/image/background_1.png')" }} 
-                                className="absolute inset-0 z-10 bg-cover bg-center"
-                            />
-                            <div className="relative z-20 text-center flex flex-col items-center">
-                                <motion.h2 
-                                    style={{ scale: mainTitleScale, y: mainTitleY }} 
-                                    className="text-6xl md:text-8xl lg:text-9xl font-extrabold mb-4 text-white drop-shadow-lg"
-                                >
-                                    INCREASE4MED
-                                </motion.h2>
-                                <motion.p 
-                                    style={{ scale: subTitleScale, y: subTitleY }} 
-                                    className="text-lg md:text-xl lg:text-2xl font-light text-white drop-shadow-lg max-w-4xl px-4"
-                                >
-                                    INtegrated Catchment-scale REsilience and Naturebased solutions<br />
-                                    for Scaling up Environmental solutions FOR the MEDiterranean
-                                </motion.p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-        // React uygulamasını 'react-root' ID'li div'e render et
-        const container = document.getElementById('react-root');
-        const root = createRoot(container);
-        root.render(<App />);
-    </script>
-
 </body>
 </html>
