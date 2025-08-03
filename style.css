@@ -11,6 +11,7 @@
     --dark-gray: #555;
     --font-header: 'Montserrat', sans-serif;
     --font-body: 'Roboto', sans-serif;
+    --blue-link-color: #007bff; /* Mavi link rengi */
 }
 
 /* Sıfırlama ve Temel Stil */
@@ -218,14 +219,59 @@ main { padding-top: 0; }
 .form-group { margin-bottom: 1.5rem; width: 100%; }
 .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
 .form-group input, .form-group textarea { width: 100%; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #ccc; font-family: var(--font-body); font-size: 1rem; }
-.checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.checkbox-group div { display: flex; align-items: center; }
-.checkbox-group input { margin-right: 0.5rem; }
+
+/* Telefon Numarası Seçim Alanı */
+.phone-input-container {
+    display: flex;
+    gap: 0.5rem; /* Seçici ile input arasında boşluk */
+}
+
+.country-code-select {
+    padding: 0.8rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    min-width: 100px; /* Sabit genişlik veya uygun bir genişlik */
+}
+
+
+/* Checkbox'lar için Grid Düzeni */
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 sütunlu düzen */
+    gap: 0.5rem 1rem; /* Satır ve sütun boşlukları */
+}
+
+.checkbox-grid div {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-grid input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: auto; /* Checkbox'ın kendi genişliğini koruması için */
+}
+
+
 .submit-btn { width: 100%; padding: 1rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s; }
 .submit-btn:hover { background-color: #091e32; }
 .contact-info-col h3 { font-family: var(--font-header); margin-bottom: 1rem; }
+
+/* Mavi Link Stili */
 .contact-link { display: flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--dark-gray); margin-bottom: 1rem; }
 .contact-link i { color: var(--primary-color); font-size: 1.2rem; }
+
+.blue-link {
+    color: var(--blue-link-color); /* Yeni tanımlanan mavi renk */
+}
+.blue-link:hover {
+    text-decoration: underline;
+}
+.blue-link i {
+    color: var(--blue-link-color); /* İkon da mavi olsun */
+}
+
 
 /* Footer */
 .site-footer { background-color: var(--light-gray); color: var(--dark-gray); padding: 4rem 2rem; font-size: 0.9rem; }
@@ -253,4 +299,7 @@ main { padding-top: 0; }
     .separator { display: none; }
     .top-bar { justify-content: center; }
     .contact-body { grid-template-columns: 1fr; }
+    .checkbox-grid { /* Mobil görünümde checkbox'ları tek sütuna düşür */
+        grid-template-columns: 1fr;
+    }
 }
