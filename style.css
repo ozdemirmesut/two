@@ -93,14 +93,15 @@ header.scrolled .top-bar {
 .scrolled-logo {
     opacity: 0;
     transform: translateX(-20px);
-    transition: all 0.4s ease;
-    width: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: opacity 0.4s ease, transform 0.4s ease, max-width 0.4s ease, margin-right 0.4s ease;
 }
 .scrolled-logo img { height: 40px; }
 header.scrolled .scrolled-logo {
     opacity: 1;
     transform: translateX(0);
-    width: auto;
+    max-width: 200px;
     margin-right: 2rem;
 }
 .main-nav ul {
@@ -208,6 +209,7 @@ main { padding-top: 0; }
     height: 550px; width: 100%; border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 2rem;
 }
+.leaflet-top, .leaflet-bottom { z-index: 400; }
 @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 .logo-slider-container {
     width: 100%; overflow: hidden; padding: 2rem 0;
@@ -215,11 +217,13 @@ main { padding-top: 0; }
 }
 .logo-slider {
     display: flex; align-items: center;
-    width: calc(180px * 18); animation: scroll 40s linear infinite;
+    animation: scroll 40s linear infinite reverse;
 }
+.logo-slider-container:hover .logo-slider { animation-play-state: paused; }
+.logo-slider a { display: inline-block; }
 .logo-slider img {
     height: 50px; width: auto; margin: 0 20px;
-    filter: grayscale(100%); opacity: 0.7;
+    filter: grayscale(100%); opacity: 0.7; cursor: pointer;
     transition: filter 0.3s, opacity 0.3s;
 }
 .logo-slider img:hover { filter: grayscale(0%); opacity: 1; }
@@ -334,3 +338,4 @@ main { padding-top: 0; }
     #react-root .md\:text-xl { font-size: 1.125rem; }
     #react-root .lg\:text-2xl { font-size: 1.25rem; }
 }
+
