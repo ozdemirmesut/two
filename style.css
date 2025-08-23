@@ -93,15 +93,14 @@ header.scrolled .top-bar {
 .scrolled-logo {
     opacity: 0;
     transform: translateX(-20px);
-    max-width: 0;
-    overflow: hidden;
-    transition: opacity 0.4s ease, transform 0.4s ease, max-width 0.4s ease, margin-right 0.4s ease;
+    transition: all 0.4s ease;
+    width: 0;
 }
 .scrolled-logo img { height: 40px; }
 header.scrolled .scrolled-logo {
     opacity: 1;
     transform: translateX(0);
-    max-width: 200px;
+    width: auto;
     margin-right: 2rem;
 }
 .main-nav ul {
@@ -217,13 +216,11 @@ main { padding-top: 0; }
 }
 .logo-slider {
     display: flex; align-items: center;
-    animation: scroll 40s linear infinite reverse;
+    width: calc(180px * 18); animation: scroll 40s linear infinite;
 }
-.logo-slider-container:hover .logo-slider { animation-play-state: paused; }
-.logo-slider a { display: inline-block; }
 .logo-slider img {
     height: 50px; width: auto; margin: 0 20px;
-    filter: grayscale(100%); opacity: 0.7; cursor: pointer;
+    filter: grayscale(100%); opacity: 0.7;
     transition: filter 0.3s, opacity 0.3s;
 }
 .logo-slider img:hover { filter: grayscale(0%); opacity: 1; }
@@ -338,4 +335,5 @@ main { padding-top: 0; }
     #react-root .md\:text-xl { font-size: 1.125rem; }
     #react-root .lg\:text-2xl { font-size: 1.25rem; }
 }
+
 
